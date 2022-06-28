@@ -95,6 +95,10 @@ contract Lottery {
         return participants[_id];
     }
 
+    function generateRandom(uint256 _n) public view returns (uint256) {
+        return rand(_n);
+    }
+
     function makeMove() public returns (bool) {
         lastNumber = int256(rand(1));
 
