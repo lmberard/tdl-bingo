@@ -12,9 +12,12 @@
 
 ## Compilacion y Deployment
 
-Para compilar y ejecutar la aplicacion, seguir los pasos del siguiente [instructivo](https://github.com/lmberard/TDL_Solidity/blob/main/CONTRIBUTING.md)
+Para compilar y ejecutar la aplicacion, seguir los pasos del siguiente [instructivo](https://github.com/lmberard/tdl-bingo/blob/main/CONTRIBUTING.md)
 
 ## Informacion sobre el proyecto y sobre solidity
 
-Para mas informacion sobre el desarrollo e implementacion del proyecto: [documento](https://github.com/lmberard/TDL_Solidity/blob/main/SOLIDITY.md)
+Para mas informacion sobre el desarrollo e implementacion del proyecto: [documento](https://github.com/lmberard/tdl-bingo/blob/main/SOLIDITY.md)
 
+## Informacion sobre smart contracts
+
+Para mas informacion sobre smart contracts y blockchain: [documento](https://github.com/lmberard/tdl-bingo/blob/main/SMART_CONTRACTS.md)
