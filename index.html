@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Bingo by Promise</title>
+        <link rel="icon" href="images/icon.png" />
+        <header>
+            <image class="headerTitle" src="images/header.png"/>
+        </header>
+        <link rel="stylesheet" href="styles/styles.css"/>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                var bingo = {
+                    selectedNumbers:[],
+                    generateRandom:function () {
+                        var min = 0;
+                        var max = 120;
+                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                        return random;
+                    },
+                    generateNextRandom:function () {
+                        if (bingo.selectedNumbers.length > 88) {
+                            alert("All numbers Exhausted");
+                            return 0;
+                        }
+                        var random = bingo.generateRandom();
+                        while ($.inArray(random, bingo.selectedNumbers) > -1) {
+                            random = bingo.generateRandom();
+                        }
+                        bingo.selectedNumbers.push(random);
+                        return random;
+                    },
+                    generateTableRandom:function () {
+                        var min = 0;
+                        var max = 120;
+                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                        return random;
+                    }
+                };
+                $('td').each(function () {
+                    var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
+                    var randomNumber = bingo.generateTableRandom().toString();
+                    var numberString = parseInt(concatClass, 10).toString();
+                    $(this).addClass("cell" + numberString).text(randomNumber);
+                });
+                $('#btnGenerate').click(function () {
+                    var random = bingo.generateNextRandom().toString();
+                    $('.bigNumberDisplay').text(random);
+                    $('td.cell' + random).addClass('selected');
+                });
+                window.onbeforeunload = function (e) {
+                    e = e || window.event;
+                    var returnString = 'Are you sure?';
+                    if (e) {
+                        e.returnValue = returnString;
+                    }
+                    return returnString;
+                };
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="gameInfo">
+                <div class="results">
+                    <div class="infoTitle">Game Summary </div>
+                    <div class="gameSummary">
+                        You have to start the game by spinning the roulette to get a random number.
+                    </div>
+                    <div class="rowTable">
+                        <div class="columnTable">
+                            Punishment for a non match:
+                        </div>
+                        <div class="column2Table">
+                            -$0.5
+                        </div>
+                    </div>
+                    <div class="rowTable">
+                        <div class="columnTable">
+                            Reward for each match:
+                        </div>
+                        <div class="column2Table">
+                            $10
+                        </div>
+                    </div>
+                    <div class="rowTable">
+                        <div class="columnTable">
+                            Reward for a complete line:
+                        </div>
+                        <div class="column2Table">
+                            $1500
+                        </div>
+                    </div>
+                    <div class="rowTable">
+                        <div class="columnTable">
+                            Reward for the whole bingo:
+                        </div>
+                        <div class="column2Table">
+                            $200000
+                        </div>
+                    </div>
+                    <div class="gameSummary">
+                        In case you want to increase your chances:
+                    </div>
+                    <div class="rowTable">
+                        <div class="columnTable">
+                            Price to increase chances:
+                        </div>
+                        <div class="column2Table">
+                            $100
+                        </div>
+                    </div>
+                    <div class="rowTable">
+                        <div class="columnTable">
+                            Price for an easier card:
+                        </div>
+                        <div class="column2Table">
+                            $500
+                        </div>
+                    </div>
+                    
+                    <div class="infoTitle">History and results:</div>
+                    <div class="infoTable">
+                        <div class="rowTable">
+                            <div class="columnTable">
+                                My initial money:
+                            </div>
+                            <div class="column2Table">
+                                $1000
+                            </div>
+                        </div>
+                        
+                        <div class="rowTable">
+                            <div class="columnTable">
+                                Amount of matches:
+                            </div>
+                            <div class="column2Table" id=""amountMatches>
+                                0
+                            </div>
+                        </div>
+                        
+                        <div class="rowTable">
+                            <div class="columnTable">
+                                Amount of lost numbers:
+                            </div>
+                            <div class="column2Table" id="amountLostNumbers">
+                                0
+                            </div>
+                        </div>                        
+                        <div class="rowTable">
+                            <div class="columnTable">
+                                Amount of easier card:
+                            </div>
+                            <div class="column2Table" id="amountEasierCards">
+                                0
+                            </div>
+                        </div>
+                        <div class="rowTable">
+                            <div class="columnTable">
+                                Collected money:
+                            </div>
+                            <div class="column2Table" id="collectedMoney">
+                                $0
+                            </div>
+                        </div>
+                    </div>
+                    <button class="buttonFn" id="btnCollect">Collect my Money</button>
+                    <button class="buttonFn" id="btnDonate">Donate</button>
+                    <button class="buttonFn" id="btnEndGame">End game</button>
+                </div> 
+            </div>
+            <div class="game">
+                <image class="roulette" src="./images/roulette2.png">
+                <div>
+                    <button class="buttonFn" id="btnGenerate">Spin the roulette</button>
+                </div> 
+                <div class="bigNumberDisplay">0</div>
+                <div class="numbersTable">
+                    <table>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <button class="buttonFn" id="btnIncrease">Increase chances</button>
+                    <button class="buttonFn" id="btnEasierCard">I want an easier card</button>
+                </div>
+            </div>
+            
+        </div>
+        
+        <footer>
+            <div class="subject">Teoria de Lenguajes de Programacion</div>
+            <div class="university">Facultad de Ingenieria</div>
+            <div class="university">Universidad de Buenos Aires</div>
+            <div class="team">Pedro Aguirre - Lucia Berard - Lucas Veron</div>
+            <div>
+                <a id="github" href="https://github.com/lmberard/tdl-bingo" target="_blank">Github Repository</a>
+            </div>
+            
+        </footer>
+    </body>
+</html>
