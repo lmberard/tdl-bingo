@@ -1,0 +1,7 @@
+## NODE MODULES
+node_modules
+package-lock.json
+yarn.lock
+
+## BUILD INFO 
+build 
