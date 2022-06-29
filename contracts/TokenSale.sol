@@ -1,4 +1,5 @@
-pragma solidity ^0.4.17;
+// pragma solidity ^0.4.17;
+pragma solidity ^0.5.16;
 
 interface MyToken {
     function decimals() external view returns (uint8);

@@ -1,0 +1,201 @@
+{
+  "contractName": "TodoList",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/TodoList.sol\":\"TodoList\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/TodoList.sol\":{\"keccak256\":\"0xbd3b12ea30f43d506037a979d0699f7351da959f4dd9f86800b394617c1b04ad\",\"urls\":[\"bzz-raw://4e48c0cad18d45f3a33d3c53204539860611424a101e152bba2fbf80d9ca9d2b\",\"dweb:/ipfs/QmQmL8ZHt3rgGAj8WTpokmjx5RMBJZK4jPzGodAWnw71pM\"]}},\"version\":1}",
+  "bytecode": "0x608060405260008055348015601357600080fd5b50603e8060216000396000f3fe6080604052600080fdfea265627a7a723158203a5eb0959a2bfbf4d875b5c6ad1e080e3ed73087a8e59732c851943abe0cf90c64736f6c63430005100032",
+  "deployedBytecode": "0x6080604052600080fdfea265627a7a723158203a5eb0959a2bfbf4d875b5c6ad1e080e3ed73087a8e59732c851943abe0cf90c64736f6c63430005100032",
+  "sourceMap": "80:48:2:-;;;124:1;104:21;;80:48;8:9:-1;5:2;;;30:1;27;20:12;5:2;80:48:2;;;;;;;",
+  "deployedSourceMap": "80:48:2:-;;;;;",
+  "source": "//pragma solidity ^0.5.0;\n// pragma solidity ^0.4.17;\npragma solidity ^0.5.16;\n\ncontract TodoList {\n    uint256 taskCount = 0;\n}\n",
+  "sourcePath": "/home/lucas/academico/1-2022/tdl/tp/workspace/tdl-bingo/contracts/TodoList.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/TodoList.sol",
+    "exportedSymbols": {
+      "TodoList": [
+        345
+      ]
+    },
+    "id": 346,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 341,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "54:24:2"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 345,
+        "linearizedBaseContracts": [
+          345
+        ],
+        "name": "TodoList",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 344,
+            "name": "taskCount",
+            "nodeType": "VariableDeclaration",
+            "scope": 345,
+            "src": "104:21:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 342,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "104:7:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 343,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "124:1:2",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "internal"
+          }
+        ],
+        "scope": 346,
+        "src": "80:48:2"
+      }
+    ],
+    "src": "54:75:2"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/TodoList.sol",
+      "exportedSymbols": {
+        "TodoList": [
+          345
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.5",
+            ".16"
+          ]
+        },
+        "id": 341,
+        "name": "PragmaDirective",
+        "src": "54:24:2"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            345
+          ],
+          "name": "TodoList",
+          "scope": 346
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "name": "taskCount",
+              "scope": 345,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 342,
+                "name": "ElementaryTypeName",
+                "src": "104:7:2"
+              },
+              {
+                "attributes": {
+                  "argumentTypes": null,
+                  "hexvalue": "30",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "subdenomination": null,
+                  "token": "number",
+                  "type": "int_const 0",
+                  "value": "0"
+                },
+                "id": 343,
+                "name": "Literal",
+                "src": "124:1:2"
+              }
+            ],
+            "id": 344,
+            "name": "VariableDeclaration",
+            "src": "104:21:2"
+          }
+        ],
+        "id": 345,
+        "name": "ContractDefinition",
+        "src": "80:48:2"
+      }
+    ],
+    "id": 346,
+    "name": "SourceUnit",
+    "src": "54:75:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.7",
+  "updatedAt": "2022-06-29T01:31:59.309Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

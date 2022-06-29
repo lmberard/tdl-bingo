@@ -1,4 +1,6 @@
 App = {
+
+
     load: async () => {
         await App.loadWeb3()
 
@@ -13,7 +15,8 @@ App = {
   loadWeb3: async () => {
     if (typeof web3 !== 'undefined') {
       App.web3Provider = web3.currentProvider
-      web3 = new Web3(web3.currentProvider)
+      //web3 = new Web3(web3.currentProvider)
+      web3 = new Web3(Web3.givenProvider || "ws://localhost:7545")
     } else {
       window.alert("Please connect to Metamask.")
     }
@@ -55,6 +58,7 @@ App = {
   generateRandomNumber: async () => {
     //Llamada al contrato
     var randomNumber = await App.bingo.generateRandomNumber()
+    console.log("random number: "+ randomNumber.toString())
     return randomNumber
   }
 }

@@ -1,6 +1,7 @@
 // Vamos a usar de referencia https://eips.ethereum.org/EIPS/eip-20
 
-pragma solidity ^0.4.17;
+// pragma solidity ^0.4.17;
+pragma solidity ^0.5.16;
 
 // Token basico
 contract LPLToken {
