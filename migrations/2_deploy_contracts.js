@@ -1,5 +1,5 @@
-var TodoList = artifacts.require("./TodoList.sol");
+var Bingo = artifacts.require("./Lottery.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(TodoList);
+  deployer.deploy(Bingo);
 };

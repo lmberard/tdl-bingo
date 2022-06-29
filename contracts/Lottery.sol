@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.13;
+// pragma solidity ^0.8.13;
+// pragma solidity ^0.4.17;
+pragma solidity >=0.5.16;
+
+pragma experimental ABIEncoderV2;
 
 contract Lottery {
     uint256 constant NUMBERS_PER_CARD = 2;
@@ -23,7 +27,7 @@ contract Lottery {
 
     //payable
     //constructor(uint256 _numerowinnder, uint256 _premio) payable {
-    constructor() payable {
+    constructor() public payable {
         owner = msg.sender;
         roundNumber = 0;
         lastNumber = -1;
@@ -93,6 +97,10 @@ contract Lottery {
 
     function seeCard(uint256 _id) public view returns (Participant memory) {
         return participants[_id];
+    }
+
+    function generateRandom() public view returns (uint256) {
+        return uint256(rand(1));
     }
 
     function makeMove() public returns (bool) {

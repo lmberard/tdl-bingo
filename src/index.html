@@ -6,8 +6,12 @@
         <header>
             <image class="headerTitle" src="images/header.png"/>
         </header>
-        <link rel="stylesheet" href="styles/styles.css"/>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.js"></script>
+		<link rel="stylesheet" href="styles/styles.css"/>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.31/dist/truffle-contract.min.js"></script>
+        <script src="app.js"></script>
+        
         <script type="text/javascript">
             $(function () {
                 var bingo = {
@@ -44,7 +48,7 @@
                     $(this).addClass("cell" + numberString).text(randomNumber);
                 });
                 $('#btnGenerate').click(function () {
-                    var random = bingo.generateNextRandom().toString();
+                    var random = await App.generateRandomNumber();
                     $('.bigNumberDisplay').text(random);
                     $('td.cell' + random).addClass('selected');
                 });
@@ -58,12 +62,6 @@
                 };
             });
         </script>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <!-- <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="vendor/truffle-contract/dist/truffle-contract.js"></script> -->
-        <!-- <script src="app.js"></script> -->
     </head>
     <body>
         <div class="container">
@@ -178,9 +176,9 @@
             <div class="game">
                 <image class="roulette" src="./images/roulette2.png">
                 <div>
-                    <button class="buttonFn" id="btnGenerate">Spin the roulette</button>
+                    <button class="buttonFn" id="btnGenerate" onclick="App.generateRandomNumber()">Spin the roulette</button>
                 </div> 
-                <div class="bigNumberDisplay">0</div>
+                <div class="bigNumberDisplay" id="bigNumberDisplay">-1</div>
                 <div class="numbersTable">
                     <table>
                         <tr>

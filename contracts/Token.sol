@@ -1,6 +1,7 @@
 // Vamos a usar de referencia https://eips.ethereum.org/EIPS/eip-20
 
-pragma solidity ^0.4.17;
+// pragma solidity ^0.4.17;
+pragma solidity >=0.5.16;
 
 // Token basico
 contract LPLToken {
@@ -29,7 +30,7 @@ contract LPLToken {
 
     //Como en las clases, en los contratos tiene que haber un constructor que inicialice el mismo
     //siempre tienen que ser public
-    constructor() public {
+    constructor () public {
         name = "Promise coin";
         symbol = "LPL"; //Lucas Pedro Lucia
         decimals = 18;

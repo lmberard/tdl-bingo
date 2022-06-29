@@ -1,11 +1,13 @@
-const Web3 = require("web3");
+// in node.js use: var Web3 = require('web3');
+
+//var web3 = new Web3(Web3.givenProvider || "ws://localhost:7545");
 
 module.exports = {
   networks: {
     development: {
-      provider: () => new Web3.providers.HttpProvider("http://127.0.0.1:9545"),
+      //provider: () => new Web3.providers.HttpProvider("http://127.0.0.1:8545"),
       host: "127.0.0.1",
-      port: 9545,
+      port: 8545,
       network_id: "*" // Match any network id
     }
   },
@@ -13,6 +15,20 @@ module.exports = {
     optimizer: {
       enabled: true,
       runs: 200
+    }
+  },
+  // Configure your compilers
+  compilers: {
+    solc: {
+      version: "0.5.16",    // Fetch exact version from solc-bin (default: truffle's version)
+      // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
+      // settings: {          // See the solidity docs for advice about optimization and evmVersion
+      //  optimizer: {
+      //    enabled: false,
+      //    runs: 200
+      //  },
+        evmVersion: "byzantium"
+      // }
     }
   }
 }
