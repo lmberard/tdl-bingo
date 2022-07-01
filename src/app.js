@@ -7,7 +7,7 @@ App = {
         await App.loadWeb3()
         await App.loadAccount()
         await App.loadContract()
-        
+        web3.eth.defaultAccount = web3.eth.accounts[0]
         // await App.render()
       },
     
@@ -48,7 +48,10 @@ App = {
 
   loadAccount: async () => {
     // Set the current blockchain account
-    App.account = web3.eth.accounts[0]
+    //App.account = web3.eth.accounts[0]
+    const accounts = await web3.eth.getAccounts();
+    console.log("Account: "+accounts[0]);
+    App.account = accounts[0];
   },
 
   loadContract: async () => {
@@ -63,13 +66,49 @@ App = {
   generateRandomNumber: async () => {
     //Llamada al contrato
     const n = new Date().getTime() % 100
-    const randomNumber = await App.bingo.generateRandom(n)
+    const randomNumber = await App.bingo.generateRandom(n, 100)
     console.log("random number: "+ randomNumber.toString())
 
-    $('.bigNumberDisplay').text(randomNumber);
-    $('td.cell' + randomNumber).addClass('selected');
-    //randomNumber.toString()
+    $('.bigNumberDisplay').text(randomNumber)
+    $('td.cell' + randomNumber).addClass('selected')
+    return randomNumber
+  },
+
+  checkHit: async () => {
+    const wasHit = await App.bingo.wasHit()
+    console.log("checkHit: "+wasHit);
+
+    amountMatches = $('#amountMatches').text()
+    $('#amountMatches').text(parseInt(amountMatches)+1)
+  },
+
+  playBingo : async() => {
+    //Agrego un participante!
+    await App.bingo.participate("foo", { from: App.account })
+    //Muestro las cartas
+    card = await App.bingo.seeCard(0, { from: App.account })
+    console.log("card: "+ card.toString())
+
+    // const n = new Date().getTime() % 10
+    // const range = 10
+    // const win = await App.bingo.makeMove(n, range, { from: App.account })
+
+     const n = new Date().getTime() % 10
+     const randomNumber = await App.bingo.generateRandom(n, 10)
+    
+    $('.bigNumberDisplay').text(randomNumber)
+    $('td.cell' + randomNumber).addClass('selected')
+
+    console.log("randomNumber: "+ randomNumber.toString())
+
+    //await checkHit();
+
+  },
+
+  generateRandomRange: async (range) => {
+
   }
+  //TODO: hacer una random de numeros dentro de 1 rango
 }
 
 $(() => {

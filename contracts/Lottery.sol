@@ -40,7 +40,7 @@ contract Lottery {
 
     //"Random function" realmente es seudorandom(?)
     //private porque es una funcion que solo puede ser accedida dentro del contrato
-    function rand(uint256 n) private view returns (uint256) {
+    function rand(uint256 n, uint256 range) private view returns (uint256) {
         //primero se castea a uint256
         //keccak256 es un algoritmo de hash (criptografia unidireccional)
         //now es el tiempo de minado, msg sender es la direccion de la persona que lo ejecuta
@@ -51,7 +51,7 @@ contract Lottery {
                 keccak256(
                     abi.encode(block.timestamp + n, msg.sender, lastNumber)
                 )
-            ) % 100;
+            ) % range;
     }
 
     function seeLastNumber() public view returns (int256) {
@@ -79,6 +79,20 @@ contract Lottery {
         }
     }
 
+    function wasHit() public view returns (bool) {
+        uint256 lastHit = uint256(seeLastNumber());
+
+        for (uint256 i = 0; i < participants.length; i++) {
+            Participant memory part = participants[i];
+            for (uint256 j = 0; j < part.card.length; j++) {
+                if (part.card[j] == lastHit) {
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
     function increaseRound() public {
         roundNumber++;
     }
@@ -86,8 +100,10 @@ contract Lottery {
     function participate(string memory _name) public {
         uint256[NUMBERS_PER_CARD] memory rands;
         uint256[NUMBERS_PER_CARD] memory acs;
+        uint256 rangeRand = 10;
+
         for (uint256 i = 0; i < NUMBERS_PER_CARD; i++) {
-            rands[i] = rand(bytes(_name).length + i);
+            rands[i] = rand((bytes(_name).length + i) % rangeRand, rangeRand);
             acs[i] = 0;
         }
 
@@ -95,17 +111,20 @@ contract Lottery {
         participants.push(part);
     }
 
-    function seeCard(uint256 _id) public view returns (Participant memory) {
-        return participants[_id];
+    function seeCard(uint256 _id) public view returns (uint256[NUMBERS_PER_CARD] memory) {
+        if(_id <= participants.length -1){
+            Participant memory part = participants[_id];
+            return part.card;
+        }
+        return [uint256(0),0];
     }
 
-    function generateRandom(uint256 _n) public view returns (uint256) {
-        return uint256(rand(_n));
-        //return uint256(6);
+    function generateRandom(uint256 _n, uint256 _range) public view returns (uint256) {
+        return uint256(rand(_n, _range));
     }
 
-    function makeMove() public returns (bool) {
-        lastNumber = int256(rand(1));
+    function makeMove(uint256 _n, uint256 _range) public returns (bool) {
+        lastNumber = int256(rand(_n, _range));
 
         increaseRound();
 

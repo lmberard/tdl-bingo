@@ -8,7 +8,7 @@
         </header>
 		<link rel="stylesheet" href="styles/styles.css"/>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.31/dist/truffle-contract.min.js"></script>
         <script src="app.js"></script>
         
@@ -23,7 +23,7 @@
                         return random;
                     },
                     generateNextRandom:function () {
-                        if (bingo.selectedNumbers.length > 88) {
+                        if (bingo.selectedNumbers.length > 99) {
                             alert("All numbers Exhausted");
                             return 0;
                         }
@@ -36,7 +36,7 @@
                     },
                     generateTableRandom:function () {
                         var min = 0;
-                        var max = 120;
+                        var max = 99;
                         var random = Math.floor(Math.random() * (max - min + 1)) + min;
                         return random;
                     }
@@ -49,7 +49,9 @@
                     $(this).addClass("cell" + randomNumber).text(randomNumber);
                 });
                 $('#btnGenerate').click(function () {
-                    App.generateRandomNumber();
+                    App.playBingo();
+                    //App.generateRandomNumber();
+
                     //console.log("random: "+random.toString());
                     //$('.bigNumberDisplay').text(random);
                     //$('td.cell' + random).addClass('selected');
@@ -140,7 +142,7 @@
                             <div class="columnTable">
                                 Amount of matches:
                             </div>
-                            <div class="column2Table" id=""amountMatches>
+                            <div class="column2Table" id="amountMatches">
                                 0
                             </div>
                         </div>
@@ -183,33 +185,6 @@
                 <div class="bigNumberDisplay" id="bigNumberDisplay">?</div>
                 <div class="numbersTable">
                     <table>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
                         <tr>
                             <td></td>
                             <td></td>
