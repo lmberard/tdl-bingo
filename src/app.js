@@ -1,14 +1,13 @@
 //var contract = require("truffle-contract");
 
 App = {
-
+    contracts: {},
 
     load: async () => {
         await App.loadWeb3()
-
-        await App.loadBingo()
+        await App.loadAccount()
+        await App.loadContract()
         
-        // await App.loadContract()
         // await App.render()
       },
     
@@ -47,26 +46,34 @@ App = {
     }
   },
 
-  loadBingo: async () => {
-    // Create a JavaScript version of the smart contract
-    const bingo = await $.getJSON('Lottery.json')
-    App.Bingo = TruffleContract(bingo)
-    App.Bingo.setProvider(App.web3Provider)
-
-    // Hydrate the smart contract with values from the blockchain
-    App.bingo = await App.Bingo.deployed()
+  loadAccount: async () => {
+    // Set the current blockchain account
+    App.account = web3.eth.accounts[0]
   },
 
+  loadContract: async () => {
+    // Create a JavaScript version of the smart contract
+    const bingo = await $.getJSON('Lottery.json')
+    App.contracts.Bingo = TruffleContract(bingo)
+    App.contracts.Bingo.setProvider(App.web3Provider)
+
+    // Hydrate the smart contract with values from the blockchain
+    App.bingo = await App.contracts.Bingo.deployed()
+  },
   generateRandomNumber: async () => {
     //Llamada al contrato
-    var randomNumber = await App.bingo.generateRandom()
+    const n = new Date().getTime() % 100
+    const randomNumber = await App.bingo.generateRandom(n)
     console.log("random number: "+ randomNumber.toString())
-    return parseInt(randomNumber.toString())
+
+    $('.bigNumberDisplay').text(randomNumber);
+    $('td.cell' + randomNumber).addClass('selected');
+    //randomNumber.toString()
   }
 }
 
 $(() => {
-    $(window).load(() => {
-      App.load()
-    })
+  $(window).load(() => {
+    App.load()
   })
+})

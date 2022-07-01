@@ -51,7 +51,7 @@ contract Lottery {
                 keccak256(
                     abi.encode(block.timestamp + n, msg.sender, lastNumber)
                 )
-            ) % 10;
+            ) % 100;
     }
 
     function seeLastNumber() public view returns (int256) {
@@ -99,8 +99,9 @@ contract Lottery {
         return participants[_id];
     }
 
-    function generateRandom() public view returns (uint256) {
-        return uint256(rand(1));
+    function generateRandom(uint256 _n) public view returns (uint256) {
+        return uint256(rand(_n));
+        //return uint256(6);
     }
 
     function makeMove() public returns (bool) {

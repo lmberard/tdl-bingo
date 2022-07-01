@@ -18,7 +18,7 @@
                     selectedNumbers:[],
                     generateRandom:function () {
                         var min = 0;
-                        var max = 120;
+                        var max = 99;
                         var random = Math.floor(Math.random() * (max - min + 1)) + min;
                         return random;
                     },
@@ -45,12 +45,14 @@
                     var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
                     var randomNumber = bingo.generateTableRandom().toString();
                     var numberString = parseInt(concatClass, 10).toString();
-                    $(this).addClass("cell" + numberString).text(randomNumber);
+                    //$(this).addClass("cell" + numberString).text(randomNumber);
+                    $(this).addClass("cell" + randomNumber).text(randomNumber);
                 });
                 $('#btnGenerate').click(function () {
-                    var random = await App.generateRandomNumber();
-                    $('.bigNumberDisplay').text(random);
-                    $('td.cell' + random).addClass('selected');
+                    App.generateRandomNumber();
+                    //console.log("random: "+random.toString());
+                    //$('.bigNumberDisplay').text(random);
+                    //$('td.cell' + random).addClass('selected');
                 });
                 window.onbeforeunload = function (e) {
                     e = e || window.event;
@@ -176,9 +178,9 @@
             <div class="game">
                 <image class="roulette" src="./images/roulette2.png">
                 <div>
-                    <button class="buttonFn" id="btnGenerate" onclick="App.generateRandomNumber()">Spin the roulette</button>
+                    <button class="buttonFn" id="btnGenerate">Spin the roulette</button>
                 </div> 
-                <div class="bigNumberDisplay" id="bigNumberDisplay">-1</div>
+                <div class="bigNumberDisplay" id="bigNumberDisplay">?</div>
                 <div class="numbersTable">
                     <table>
                         <tr>
