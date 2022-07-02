@@ -2,17 +2,7 @@
 
 1. Clone the repository 
 
-2. Install Ganache
-    ```bash
-    npm install ganache
-    ```
-
-3. Install Truffle
-    ```bash
-    npm install -g truffle@5.0.2
-    ```
-
-4. Install [metamask chrome extension](https://metamask.io/)
+2. Install [metamask chrome extension](https://metamask.io/)
 
     In order to use the metamask chrome extension, you will need to add fake accounts for testing
     1. Open Ganache and open a Quickstart Workspace
@@ -20,7 +10,7 @@
     3. Import it in the Metamask extension as a new account
     4. Add a new network with the port that Ganache uses in the account you copied.
     
-5. Install dependencies and lite-server
+3. Install dependencies and lite-server
     ```bash
     npm install
     ```  
