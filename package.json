@@ -1,7 +1,7 @@
 {
     "name": "eth-todo-list",
     "version": "1.0.0",
-    "description": "Blockchain Todo List Powered By Ethereum",
+    "description": "Blockchain Bingo powered by Ethereum",
     "main": "truffle-config.js",
     "directories": {
         "test": "test"
@@ -10,7 +10,7 @@
         "dev": "lite-server",
         "test": "echo \"Error: no test specified\" && sexit 1"
     },
-    "author": "gregory@dappuniversity.com",
+    "author": "Promise",
     "license": "ISC",
     "devDependencies": {
         "bootstrap": "4.1.3",
@@ -24,6 +24,7 @@
         "web3": "^1.7.4"
     },
     "dependencies": {
+        "@metamask/legacy-web3": "^2.0.0",
         "ganache": "^7.3.2",
         "styled-components": "^5.3.5"
     },

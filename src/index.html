@@ -7,9 +7,12 @@
             <image class="headerTitle" src="images/header.png"/>
         </header>
 		<link rel="stylesheet" href="styles/styles.css"/>
+        <!-- The legacy-web3 script must run BEFORE your other scripts. -->
+        <script src="https://unpkg.com/@metamask/legacy-web3@latest/dist/metamask.web3.min.js"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.31/dist/truffle-contract.min.js"></script>
+        <!-- <script src="app.js"></script> -->
         <script src="app.js"></script>
         
         <script type="text/javascript">
@@ -18,12 +21,12 @@
                     selectedNumbers:[],
                     generateRandom:function () {
                         var min = 0;
-                        var max = 99;
+                        var max = 20;
                         var random = Math.floor(Math.random() * (max - min + 1)) + min;
                         return random;
                     },
                     generateNextRandom:function () {
-                        if (bingo.selectedNumbers.length > 99) {
+                        if (bingo.selectedNumbers.length > 20) {
                             alert("All numbers Exhausted");
                             return 0;
                         }
@@ -36,7 +39,7 @@
                     },
                     generateTableRandom:function () {
                         var min = 0;
-                        var max = 99;
+                        var max = 20;
                         var random = Math.floor(Math.random() * (max - min + 1)) + min;
                         return random;
                     }
@@ -48,14 +51,29 @@
                     //$(this).addClass("cell" + numberString).text(randomNumber);
                     $(this).addClass("cell" + randomNumber).text(randomNumber);
                 });
+                var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
                 $('#btnGenerate').click(function () {
                     App.playBingo();
-                    //App.generateRandomNumber();
-
-                    //console.log("random: "+random.toString());
-                    //$('.bigNumberDisplay').text(random);
-                    //$('td.cell' + random).addClass('selected');
                 });
+                $('#btnIncrease').click(function (amountMatches) {
+                    amountMatches++;
+                    console.log("amount: "+amountMatches)
+                    $('#amountMatches').text(amountMatches);
+                });
+                $('#btnEasierCard').click(function () {
+                    
+                });
+
+                $('#btnCollect').click(function () {
+                    
+                });
+                $('#btnDonate').click(function () {
+                    
+                });
+                $('#btnEndGame').click(function () {
+                    alert("Thank you for playing with us!!")
+                });
+
                 window.onbeforeunload = function (e) {
                     e = e || window.event;
                     var returnString = 'Are you sure?';
@@ -143,7 +161,7 @@
                                 Amount of matches:
                             </div>
                             <div class="column2Table" id="amountMatches">
-                                0
+                            
                             </div>
                         </div>
                         
@@ -152,7 +170,7 @@
                                 Amount of lost numbers:
                             </div>
                             <div class="column2Table" id="amountLostNumbers">
-                                0
+                            
                             </div>
                         </div>                        
                         <div class="rowTable">
@@ -160,7 +178,7 @@
                                 Amount of easier card:
                             </div>
                             <div class="column2Table" id="amountEasierCards">
-                                0
+                            
                             </div>
                         </div>
                         <div class="rowTable">
@@ -168,13 +186,13 @@
                                 Collected money:
                             </div>
                             <div class="column2Table" id="collectedMoney">
-                                $0
+                                
                             </div>
                         </div>
                     </div>
                     <button class="buttonFn" id="btnCollect">Collect my Money</button>
                     <button class="buttonFn" id="btnDonate">Donate</button>
-                    <button class="buttonFn" id="btnEndGame">End game</button>
+                    <button class="buttonFn" onclick="window.location.href='/endGame.html'">End game</button>
                 </div> 
             </div>
             <div class="game">

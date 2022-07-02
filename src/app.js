@@ -1,4 +1,8 @@
-//var contract = require("truffle-contract");
+// import '../node_modules/@metamask/legacy-web3'
+// // // v ar contract = require("truffle-contract");
+// // const { web3 } = window
+// // // const selectedAddress = web3.eth.defaultAccount
+// // const PORT = 7545;
 
 App = {
     contracts: {},
@@ -13,38 +17,37 @@ App = {
     
       
     // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
-  loadWeb3: async () => {
-    if (typeof web3 !== 'undefined') {
-      App.web3Provider = web3.currentProvider
-      //web3 = new Web3(web3.currentProvider)
-      web3 = new Web3(Web3.givenProvider || "ws://localhost:8545")
-    } else {
-      window.alert("Please connect to Metamask.")
-    }
-    // Modern dapp browsers...
-    if (window.ethereum) {
-      window.web3 = new Web3(ethereum)
-      try {
-        // Request account access if needed
-        await ethereum.enable()
-        // Acccounts now exposed
-        web3.eth.sendTransaction({/* ... */})
-      } catch (error) {
-        // User denied account access...
+    loadWeb3: async () => {
+      if (typeof web3 !== 'undefined') {
+        App.web3Provider = web3.currentProvider
+        web3 = new Web3(web3.currentProvider)
+      } else {
+        window.alert("Please connect to Metamask.")
       }
-    }
-    // Legacy dapp browsers...
-    else if (window.web3) {
-      App.web3Provider = web3.currentProvider
-      window.web3 = new Web3(web3.currentProvider)
-      // Acccounts always exposed
-      web3.eth.sendTransaction({/* ... */})
-    }
-    // Non-dapp browsers...
-    else {
-      console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    }
-  },
+      // Modern dapp browsers...
+      if (window.ethereum) {
+        window.web3 = new Web3(ethereum)
+        try {
+          // Request account access if needed
+          await ethereum.enable()
+          // Acccounts now exposed
+          web3.eth.sendTransaction({/* ... */})
+        } catch (error) {
+          // User denied account access...
+        }
+      }
+      // Legacy dapp browsers...
+      else if (window.web3) {
+        App.web3Provider = web3.currentProvider
+        window.web3 = new Web3(web3.currentProvider)
+        // Acccounts always exposed
+        web3.eth.sendTransaction({/* ... */})
+      }
+      // Non-dapp browsers...
+      else {
+        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
+      }
+    },
 
   loadAccount: async () => {
     // Set the current blockchain account
@@ -95,9 +98,21 @@ App = {
 
      const n = new Date().getTime() % 10
      const randomNumber = await App.bingo.generateRandom(n, 10)
-    
+    var amountMatches = 0;
     $('.bigNumberDisplay').text(randomNumber)
+    
     $('td.cell' + randomNumber).addClass('selected')
+    CardMatch = document.getElementById('td.cell'  + randomNumber).getText();
+
+    console.log(CardMatch)
+
+    // if($('td.cell' + randomNumber).addClass('selected')){
+    //   amountMatches++;
+    //   console.log("amount: "+amountMatches);
+    //   $('#amountMatches').text(amountMatches);
+    // }
+    
+      
 
     console.log("randomNumber: "+ randomNumber.toString())
 
@@ -110,6 +125,8 @@ App = {
   }
   //TODO: hacer una random de numeros dentro de 1 rango
 }
+
+// App.listen(PORT, () => console.log(`app listening at http://localhost:${PORT}`))
 
 $(() => {
   $(window).load(() => {
