@@ -6,84 +6,16 @@
         <header>
             <image class="headerTitle" src="images/header.png"/>
         </header>
-		<link rel="stylesheet" href="styles/styles.css"/>
-        <!-- The legacy-web3 script must run BEFORE your other scripts. -->
+		<!-- IMPORTS LIBRARY-->
         <script src="https://unpkg.com/@metamask/legacy-web3@latest/dist/metamask.web3.min.js"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.31/dist/truffle-contract.min.js"></script>
-        <!-- <script src="app.js"></script> -->
-        <script src="app.js"></script>
         
-        <script type="text/javascript">
-            $(function () {
-                var bingo = {
-                    selectedNumbers:[],
-                    generateRandom:function () {
-                        var min = 0;
-                        var max = 20;
-                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
-                        return random;
-                    },
-                    generateNextRandom:function () {
-                        if (bingo.selectedNumbers.length > 20) {
-                            alert("All numbers Exhausted");
-                            return 0;
-                        }
-                        var random = bingo.generateRandom();
-                        while ($.inArray(random, bingo.selectedNumbers) > -1) {
-                            random = bingo.generateRandom();
-                        }
-                        bingo.selectedNumbers.push(random);
-                        return random;
-                    },
-                    generateTableRandom:function () {
-                        var min = 0;
-                        var max = 20;
-                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
-                        return random;
-                    }
-                };
-                $('td').each(function () {
-                    var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
-                    var randomNumber = bingo.generateTableRandom().toString();
-                    var numberString = parseInt(concatClass, 10).toString();
-                    //$(this).addClass("cell" + numberString).text(randomNumber);
-                    $(this).addClass("cell" + randomNumber).text(randomNumber);
-                });
-                var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
-                $('#btnGenerate').click(function () {
-                    App.playBingo();
-                });
-                $('#btnIncrease').click(function (amountMatches) {
-                    amountMatches++;
-                    console.log("amount: "+amountMatches)
-                    $('#amountMatches').text(amountMatches);
-                });
-                $('#btnEasierCard').click(function () {
-                    
-                });
-
-                $('#btnCollect').click(function () {
-                    
-                });
-                $('#btnDonate').click(function () {
-                    
-                });
-                $('#btnEndGame').click(function () {
-                    alert("Thank you for playing with us!!")
-                });
-
-                window.onbeforeunload = function (e) {
-                    e = e || window.event;
-                    var returnString = 'Are you sure?';
-                    if (e) {
-                        e.returnValue = returnString;
-                    }
-                    return returnString;
-                };
-            });
-        </script>
+        <!-- OUR SCRIPTS -->
+        <link rel="stylesheet" href="styles/styles.css"/>
+        <script src="app.js"></script>
+        <script type="text/javascript" src="index.js"></script>
     </head>
     <body>
         <div class="container">
