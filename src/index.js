@@ -26,9 +26,13 @@ $(function () {
             return random;
         }
     };
-    $('td').each(function () {
+    
+    //const board = App.getBoard()
+
+    $('td').each(function (index) {
         var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
         var randomNumber = bingo.generateTableRandom().toString();
+        //var randomNumber = board[index];
         var numberString = parseInt(concatClass, 10).toString();
         $(this).addClass("cell" + randomNumber).text(randomNumber);
     });

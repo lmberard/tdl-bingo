@@ -4,11 +4,11 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery {
     // ATRIBUTES -----------------------------------------------
-    uint256 constant NUMBERS_PER_CARD = 2;
+    uint256 constant NUMBERS_PER_BOARD = 21;
     struct Participant {
         string name;
-        uint256[NUMBERS_PER_CARD] card;
-        uint256[NUMBERS_PER_CARD] hits;
+        uint256[NUMBERS_PER_BOARD] card;
+        uint256[NUMBERS_PER_BOARD] hits;
         uint256 amountHits;
     }
     Participant[] private participants;
@@ -47,7 +47,7 @@ contract Lottery {
     // GAME LOGIC ----------------------------------------------
     function checkWinnder() private view returns (bool) {
         for (uint256 i; i < participants.length; i++) {
-            if (participants[i].amountHits == NUMBERS_PER_CARD) {
+            if (participants[i].amountHits == NUMBERS_PER_BOARD) {
                 return true;
             }
         }
@@ -84,12 +84,12 @@ contract Lottery {
         roundNumber++;
     }
 
-    function participate(string memory _name) public {
-        uint256[NUMBERS_PER_CARD] memory rands;
-        uint256[NUMBERS_PER_CARD] memory acs;
+    function competitor(string memory _name) public {
+        uint256[NUMBERS_PER_BOARD] memory rands;
+        uint256[NUMBERS_PER_BOARD] memory acs;
         uint256 rangeRand = 10;
 
-        for (uint256 i = 0; i < NUMBERS_PER_CARD; i++) {
+        for (uint256 i = 0; i < NUMBERS_PER_BOARD; i++) {
             rands[i] = rand((bytes(_name).length + i) % rangeRand, rangeRand);
             acs[i] = 0;
         }
@@ -98,16 +98,19 @@ contract Lottery {
         participants.push(part);
     }
 
-    function seeCard(uint256 _id)
+    function showBoard(uint256 _id)
         public
         view
-        returns (uint256[NUMBERS_PER_CARD] memory)
+        returns (uint256[NUMBERS_PER_BOARD] memory)
     {
         if (_id <= participants.length - 1) {
             Participant memory part = participants[_id];
             return part.card;
         }
-        return [uint256(0), 0];
+        //return [uint256(0), 0];
+        return [uint256(0),0,0,0,0,0,0,
+                        0, 0,0,0,0,0,0,
+                        0, 0,0,0,0,0,0];
     }
 
     function generateRandom(uint256 _n, uint256 _range)

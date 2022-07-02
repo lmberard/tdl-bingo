@@ -1,21 +1,21 @@
 App = {
-    contracts: {},
+  contracts: {},
 
-    load: async () => {
-        await App.loadWeb3()
-        await App.loadAccount()
-        await App.loadContract()
-        web3.eth.defaultAccount = web3.eth.accounts[0]
-      },
-    
-    loadWeb3: async () => {
-      if (typeof web3 !== 'undefined') {
-        App.web3Provider = web3.currentProvider
-        web3 = new Web3(web3.currentProvider)
-      } else {
-        window.alert("Please connect to Metamask.")
-      }
+  load: async () => {
+      await App.loadWeb3()
+      await App.loadAccount()
+      await App.loadContract()
+      web3.eth.defaultAccount = web3.eth.accounts[0]
     },
+  
+  loadWeb3: async () => {
+    if (typeof web3 !== 'undefined') {
+      App.web3Provider = web3.currentProvider
+      web3 = new Web3(web3.currentProvider)
+    } else {
+      window.alert("Please connect to Metamask.")
+    }
+  },
 
   loadAccount: async () => {
     // Set the current blockchain account
@@ -53,11 +53,10 @@ App = {
   },
 
   playBingo : async() => {
-    //Agrego un participante!
-    await App.bingo.participate("foo", { from: App.account })
-    //Muestro las cartas
-    card = await App.bingo.seeCard(0, { from: App.account })
-    console.log("card: "+ card.toString())
+    //await App.addCompetitor()
+    App.bingo.competitor("foo", { from: App.account })
+    board = await App.getBoard()
+    console.log("board: "+ board.toString())
 
     const n = new Date().getTime() % 10
     const randomNumber = await App.bingo.generateRandom(n, 10)
@@ -65,6 +64,15 @@ App = {
     $('.bigNumberDisplay').text(randomNumber)   
     $('td.cell' + randomNumber).addClass('selected')
   },
+
+  initBingo: async ()  => {
+    await App.bingo.competitor("foo", { from: App.account })
+  },
+
+  getBoard: async () => {
+    return await App.bingo.showBoard(0, { from: App.account })
+  },
+
 
   generateRandomRange: async (range) => {
 
@@ -75,5 +83,7 @@ App = {
 $(() => {
   $(window).load(() => {
     App.load()
+    //App.initBingo()
+    //App.bingo.competitor("foo", { from: App.account })
   })
 })
