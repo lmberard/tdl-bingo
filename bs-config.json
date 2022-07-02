@@ -1,0 +1,13 @@
+{
+  "port": 7545,
+    "server": {
+      "baseDir": [
+        "./src",
+        "./build/contracts"
+      ],
+      "routes": {
+        "/vendor": "./node_modules"
+      }
+    }
+  }
+  

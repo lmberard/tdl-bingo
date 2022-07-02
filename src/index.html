@@ -6,64 +6,16 @@
         <header>
             <image class="headerTitle" src="images/header.png"/>
         </header>
+		<!-- IMPORTS LIBRARY-->
+        <script src="https://unpkg.com/@metamask/legacy-web3@latest/dist/metamask.web3.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.31/dist/truffle-contract.min.js"></script>
+        
+        <!-- OUR SCRIPTS -->
         <link rel="stylesheet" href="styles/styles.css"/>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.js"></script>
-        <script type="text/javascript">
-            $(function () {
-                var bingo = {
-                    selectedNumbers:[],
-                    generateRandom:function () {
-                        var min = 0;
-                        var max = 120;
-                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
-                        return random;
-                    },
-                    generateNextRandom:function () {
-                        if (bingo.selectedNumbers.length > 88) {
-                            alert("All numbers Exhausted");
-                            return 0;
-                        }
-                        var random = bingo.generateRandom();
-                        while ($.inArray(random, bingo.selectedNumbers) > -1) {
-                            random = bingo.generateRandom();
-                        }
-                        bingo.selectedNumbers.push(random);
-                        return random;
-                    },
-                    generateTableRandom:function () {
-                        var min = 0;
-                        var max = 120;
-                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
-                        return random;
-                    }
-                };
-                $('td').each(function () {
-                    var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
-                    var randomNumber = bingo.generateTableRandom().toString();
-                    var numberString = parseInt(concatClass, 10).toString();
-                    $(this).addClass("cell" + numberString).text(randomNumber);
-                });
-                $('#btnGenerate').click(function () {
-                    var random = bingo.generateNextRandom().toString();
-                    $('.bigNumberDisplay').text(random);
-                    $('td.cell' + random).addClass('selected');
-                });
-                window.onbeforeunload = function (e) {
-                    e = e || window.event;
-                    var returnString = 'Are you sure?';
-                    if (e) {
-                        e.returnValue = returnString;
-                    }
-                    return returnString;
-                };
-            });
-        </script>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <!-- <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="vendor/truffle-contract/dist/truffle-contract.js"></script> -->
-        <!-- <script src="app.js"></script> -->
+        <script src="app.js"></script>
+        <script type="text/javascript" src="index.js"></script>
     </head>
     <body>
         <div class="container">
@@ -140,8 +92,8 @@
                             <div class="columnTable">
                                 Amount of matches:
                             </div>
-                            <div class="column2Table" id=""amountMatches>
-                                0
+                            <div class="column2Table" id="amountMatches">
+                            
                             </div>
                         </div>
                         
@@ -150,7 +102,7 @@
                                 Amount of lost numbers:
                             </div>
                             <div class="column2Table" id="amountLostNumbers">
-                                0
+                            
                             </div>
                         </div>                        
                         <div class="rowTable">
@@ -158,7 +110,7 @@
                                 Amount of easier card:
                             </div>
                             <div class="column2Table" id="amountEasierCards">
-                                0
+                            
                             </div>
                         </div>
                         <div class="rowTable">
@@ -166,13 +118,13 @@
                                 Collected money:
                             </div>
                             <div class="column2Table" id="collectedMoney">
-                                $0
+                                
                             </div>
                         </div>
                     </div>
                     <button class="buttonFn" id="btnCollect">Collect my Money</button>
                     <button class="buttonFn" id="btnDonate">Donate</button>
-                    <button class="buttonFn" id="btnEndGame">End game</button>
+                    <button class="buttonFn" onclick="window.location.href='/endGame.html'">End game</button>
                 </div> 
             </div>
             <div class="game">
@@ -180,36 +132,9 @@
                 <div>
                     <button class="buttonFn" id="btnGenerate">Spin the roulette</button>
                 </div> 
-                <div class="bigNumberDisplay">0</div>
+                <div class="bigNumberDisplay" id="bigNumberDisplay">?</div>
                 <div class="numbersTable">
                     <table>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
                         <tr>
                             <td></td>
                             <td></td>

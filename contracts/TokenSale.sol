@@ -1,4 +1,5 @@
-pragma solidity ^0.4.17;
+// pragma solidity ^0.4.17;
+pragma solidity >=0.5.16;
 
 interface MyToken {
     function decimals() external view returns (uint8);
@@ -61,6 +62,7 @@ contract TokenSale {
             )
         );
 
-        msg.sender.transfer(address(this).balance);
+        //TODO: ver que onda esto, da error
+        //msg.sender.transfer(address(this).balance);
     }
 }
