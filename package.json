@@ -1,5 +1,5 @@
 {
-    "name": "eth-todo-list",
+    "name": "tdl-bingo",
     "version": "1.0.0",
     "description": "Blockchain Bingo powered by Ethereum",
     "main": "truffle-config.js",
