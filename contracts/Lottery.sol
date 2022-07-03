@@ -77,7 +77,7 @@ contract Lottery {
     function competitor(string memory _name) public {
         uint256[NUMBERS_PER_BOARD] memory rands;
         uint256[NUMBERS_PER_BOARD] memory acs;
-        uint256 rangeRand = 10;
+        uint256 rangeRand = 100;
 
         if(bytes(player.name).length == 0){
             for (uint256 i = 0; i < NUMBERS_PER_BOARD; i++) {
@@ -85,7 +85,7 @@ contract Lottery {
                 acs[i] = 0;
             }
             player.name = _name;
-            player.board = rands;
+            player.board = sort_array(rands);
             player.hits = acs;
             player.amountHits = 0;
         }
@@ -111,5 +111,19 @@ contract Lottery {
         addHit(lastNumber);
 
         return checkWinnder();
+    }
+
+    function sort_array(uint[21] memory arr) private pure returns (uint[21] memory) {
+        uint l = arr.length;
+        for(uint i = 0; i < l; i++) {
+            for(uint j = i+1; j < l ;j++) {
+                if(arr[i] > arr[j]) {
+                    uint temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+        return arr;
     }
 }
