@@ -15,6 +15,29 @@ App = {
     } else {
       window.alert("Please connect to Metamask.")
     }
+    // Modern dapp browsers...
+    if (window.ethereum) {
+      window.web3 = new Web3(ethereum)
+      try {
+        // Request account access if needed
+        await ethereum.enable()
+        // Acccounts now exposed
+        web3.eth.sendTransaction({/* ... */})
+      } catch (error) {
+        // User denied account access...
+      }
+    }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+      App.web3Provider = web3.currentProvider
+      window.web3 = new Web3(web3.currentProvider)
+      // Acccounts always exposed
+      web3.eth.sendTransaction({/* ... */})
+    }
+    // Non-dapp browsers...
+    else {
+      console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
+    }
   },
 
   loadAccount: async () => {
@@ -53,17 +76,19 @@ App = {
   },
 
   playBingo : async() => {
-    //await App.addCompetitor()
-    //App.bingo.competitor("foo", { from: App.account })
-    await App.initBingo()
-    board = await App.getBoard()
-    console.log("board: "+ board.toString())
+    const randRange = 10
 
-    const n = new Date().getTime() % 10
-    const randomNumber = await App.bingo.generateRandom(n, 10)
+    board = await App.getBoard()
+    console.log("Retrieve board: "+ board.toString())
+
+    const n = new Date().getTime() % randRange
+    const randomNumber = await App.bingo.generateRandom(n, randRange)
     var amountMatches = 0;
+
     $('.bigNumberDisplay').text(randomNumber)   
     $('td.cell' + randomNumber).addClass('selected')
+
+    amountMatches++;
   },
 
   initBingo: async ()  => {

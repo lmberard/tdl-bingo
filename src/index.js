@@ -29,21 +29,24 @@ $(function () {
             return random;
         }
     };
+
     $('#btnStartGame').click(function () {
-        console.log("hello");
-        // App.initBingo();
+        App.initBingo();
+        console.log("Init Bingo ... OK");
+        board = App.getBoard().then(board =>{
+            console.log("Board: "+board);
+            $('td').each(function (index) {
+                var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
+                var randomNumber = board[index];
+                var numberString = parseInt(concatClass, 10).toString();
+                $(this).addClass("cell" + randomNumber).text(randomNumber);
+            });
+        });        
     });
 
-    $('td').each(function (index) {
-        var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
-        var randomNumber = bingo.generateTableRandom().toString();
-        //var randomNumber = board[index];
-        var numberString = parseInt(concatClass, 10).toString();
-        $(this).addClass("cell" + randomNumber).text(randomNumber);
-    });
     var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
     $('#btnGenerate').click(function () {
-        console.log("hello2");
+        //console.log("hello2");
         App.playBingo();
     });
     $('#btnIncrease').click(function (amountMatches) {

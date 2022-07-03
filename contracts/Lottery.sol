@@ -4,7 +4,8 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery {
     // ATRIBUTES -----------------------------------------------
-    uint256 constant NUMBERS_PER_BOARD = 21;
+    uint256 constant NUMBERS_PER_BOARD = 3;// 21;
+    uint256 constant RAND_INIT_BINGO = 10;
     struct Participant {
         string name;
         uint256[NUMBERS_PER_BOARD] board;
@@ -77,7 +78,7 @@ contract Lottery {
     function competitor(string memory _name) public {
         uint256[NUMBERS_PER_BOARD] memory rands;
         uint256[NUMBERS_PER_BOARD] memory acs;
-        uint256 rangeRand = 100;
+        uint256 rangeRand = RAND_INIT_BINGO;
 
         if(bytes(player.name).length == 0){
             for (uint256 i = 0; i < NUMBERS_PER_BOARD; i++) {
@@ -113,7 +114,7 @@ contract Lottery {
         return checkWinnder();
     }
 
-    function sort_array(uint[21] memory arr) private pure returns (uint[21] memory) {
+    function sort_array(uint[NUMBERS_PER_BOARD] memory arr) private pure returns (uint[NUMBERS_PER_BOARD] memory) {
         uint l = arr.length;
         for(uint i = 0; i < l; i++) {
             for(uint j = i+1; j < l ;j++) {
