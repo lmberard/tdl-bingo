@@ -1,4 +1,7 @@
 $(function () {
+    const priceNotMatch = 0.1, priceIncrease = 1, priceEasierCard = 10;
+    const rewardMatch = 0.4, rewardCompleteLine = 100, rewardBingo = 1000;
+
     var bingo = {
         selectedNumbers:[],
         generateRandom:function () {
@@ -26,8 +29,10 @@ $(function () {
             return random;
         }
     };
-    
-    //const board = App.getBoard()
+    $('#btnStartGame').click(function () {
+        console.log("hello");
+        // App.initBingo();
+    });
 
     $('td').each(function (index) {
         var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
@@ -38,6 +43,7 @@ $(function () {
     });
     var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
     $('#btnGenerate').click(function () {
+        console.log("hello2");
         App.playBingo();
     });
     $('#btnIncrease').click(function (amountMatches) {
