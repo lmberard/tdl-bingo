@@ -266,13 +266,17 @@ td.selected {
 /************************************************************/
 /* ---------------------- GAME INFO ----------------------- */
 /************************************************************/
-.gameInfo {
+.summaryInfo {
   text-align: center;
   vertical-align: middle;
 
   padding-bottom: 40px;
   box-shadow: rgba(11, 78, 78, 0.5) 0 10px 6px;
   margin-bottom: 60px;
+}
+.gameInfo {
+  text-align: center;
+  vertical-align: middle;
 }
 
 .gameSummary {
@@ -287,15 +291,16 @@ td.selected {
 .rowTable {
   margin-bottom: 30px;
   border-bottom: 1px solid;
-  color: rgb(141, 137, 137);
 }
 .columnTable {
+  color: rgb(185, 184, 184);
   text-align: left;
-  font-size: 20px;
+  font-size: 30px;
 }
 .column2Table {
+  color: rgb(233, 231, 231);
   text-align: right;
-  font-size: 20px;
+  font-size: 40px;
 }
 
 /*----------------------------------------------------------------*/
