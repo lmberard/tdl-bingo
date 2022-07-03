@@ -54,7 +54,8 @@ App = {
 
   playBingo : async() => {
     //await App.addCompetitor()
-    App.bingo.competitor("foo", { from: App.account })
+    //App.bingo.competitor("foo", { from: App.account })
+    await App.initBingo()
     board = await App.getBoard()
     console.log("board: "+ board.toString())
 
@@ -66,11 +67,11 @@ App = {
   },
 
   initBingo: async ()  => {
-    await App.bingo.competitor("foo", { from: App.account })
+    await App.bingo.competitor("pipo", { from: App.account })
   },
 
   getBoard: async () => {
-    return await App.bingo.showBoard(0, { from: App.account })
+    return await App.bingo.getBoard({ from: App.account })
   },
 
 
