@@ -33,8 +33,8 @@ $(function () {
     $('#btnStartGame').click(function () {
         App.initBingo();
         console.log("Init Bingo ... OK");
-        board = App.getBoard().then(board =>{
-            console.log("Board: "+board);
+        board = App.getBoard().then(board => {
+            console.log("Board created: "+board);
             $('td').each(function (index) {
                 var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
                 var randomNumber = board[index];
@@ -43,16 +43,19 @@ $(function () {
             });
         });        
     });
-
+    // TODO: lo dejamos o lo sacamos?
     var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
     $('#btnGenerate').click(function () {
-        //console.log("hello2");
+        //$( "#containerGameID" ).show("slow");
+        //$( "#containerGameID" ).css({'style':'display: block'})
         App.playBingo();
+        
+
     });
     $('#btnIncrease').click(function (amountMatches) {
-        amountMatches++;
-        console.log("amount: "+amountMatches)
-        $('#amountMatches').text(amountMatches);
+        // amountMatches++;
+        // console.log("amount: "+amountMatches)
+        // $('#amountMatches').text(amountMatches);
     });
     $('#btnEasierCard').click(function () {
         

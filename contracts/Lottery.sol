@@ -4,7 +4,7 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery {
     // ATRIBUTES -----------------------------------------------
-    uint256 constant NUMBERS_PER_BOARD = 3;// 21;
+    uint256 constant NUMBERS_PER_BOARD = 1;// 21;
     uint256 constant RAND_INIT_BINGO = 10;
     struct Participant {
         string name;
@@ -46,10 +46,15 @@ contract Lottery {
     }
 
     // GAME LOGIC ----------------------------------------------
-    function checkWinnder() private view returns (bool) {
-        if (player.amountHits == NUMBERS_PER_BOARD)
-            return true;
-        return false;
+    function amountHits() public view returns(uint256) {
+        return player.amountHits;
+    }
+
+    function checkWinnder() public view returns (bool) {
+        return player.amountHits == NUMBERS_PER_BOARD;
+        // if (player.amountHits == NUMBERS_PER_BOARD)
+        //     return true;
+        // return false;
     }
 
     function addHit(int256 _outNumber) private {

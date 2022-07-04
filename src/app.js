@@ -67,28 +67,22 @@ App = {
     return randomNumber
   },
 
-  checkHit: async () => {
-    const wasHit = await App.bingo.wasHit()
-    console.log("checkHit: "+wasHit);
-
-    amountMatches = $('#amountMatches').text()
-    $('#amountMatches').text(parseInt(amountMatches)+1)
-  },
-
   playBingo : async() => {
-    const randRange = 10
+    
+    // TODO: raro que isWinnder regrese true siempre???
+    board = App.makeMove().then( isWinnder => {
 
-    board = await App.getBoard()
-    console.log("Retrieve board: "+ board.toString())
+      console.log("makeMove response: "+isWinnder)
 
-    const n = new Date().getTime() % randRange
-    const randomNumber = await App.bingo.generateRandom(n, randRange)
-    var amountMatches = 0;
+      // See last number & update FE
+      App.seeLastNumberAndUpdateView()
 
-    $('.bigNumberDisplay').text(randomNumber)   
-    $('td.cell' + randomNumber).addClass('selected')
+      // Check if was Hit & update FE amount matches
+      App.checkHitAndUpdateView()
 
-    amountMatches++;
+      // Check winnder & do something
+      App.checkWinnderAndDo()
+    })
   },
 
   initBingo: async ()  => {
@@ -99,6 +93,60 @@ App = {
     return await App.bingo.getBoard({ from: App.account })
   },
 
+  seeLastNumber: async () => {
+    return await App.bingo.seeLastNumber({ from: App.account })
+  },
+
+  amountHits: async () => {
+    return await App.bingo.amountHits()
+  },
+
+  checkWinnder: async () => {
+    return await App.bingo.checkWinnder()
+  },
+
+  seeLastNumberAndUpdateView: async () => {
+    App.seeLastNumber().then( randomNumber => {
+      console.log("Random number: "+randomNumber)
+
+      $('.bigNumberDisplay').text(randomNumber)
+      $('td.cell' + randomNumber).addClass('selected')
+    }).catch( () => { console.log("Error en seeLastNumber!")})
+  },
+
+  checkWinnderAndDo: async () => {
+    App.checkWinnder().then( isWinnder => {
+        if(isWinnder){
+          console.log("Ganaste Papa!")
+          //TODO: hacer el cierre de juego!
+        } else {
+          console.log("Seguí participando...")
+        }
+      })
+  
+  },
+
+  checkHitAndUpdateView: async () => {
+    await App.bingo.wasHit({ from: App.account }).then( wasHit => {
+      if(wasHit){
+        amountMatches = $('#amountMatches').text()
+        console.log("Was Hit!, matches: "+amountMatches)
+
+        $('#amountMatches').text(parseInt(amountMatches)+1)
+      } else {
+        amountLoseMatches = $('#amountLostNumbers').text()
+        console.log("Wasn't Hit :-(, lose matches: "+amountLoseMatches)
+
+        $('#amountLostNumbers').text(parseInt(amountLoseMatches)+1)
+      }
+    })
+  },
+  
+  makeMove: async () => {
+    const randRange = 10;
+    const n = new Date().getTime() % randRange
+    return await App.bingo.makeMove(n, randRange, { from: App.account })
+  },
 
   generateRandomRange: async (range) => {
 
