@@ -52,10 +52,16 @@ App = {
     const bingo = await $.getJSON('Lottery.json')
     App.contracts.Bingo = TruffleContract(bingo)
     App.contracts.Bingo.setProvider(App.web3Provider)
-
     // Hydrate the smart contract with values from the blockchain
     App.bingo = await App.contracts.Bingo.deployed()
+
+
+    const token = await $.getJSON('LPLToken.json')
+    App.contracts.Token = TruffleContract(token)
+    App.contracts.Token.setProvider(App.web3Provider)
+    App.token = await App.contracts.Token.deployed()
   },
+
   generateRandomNumber: async () => {
     //Llamada al contrato
     const n = new Date().getTime() % 100
@@ -115,12 +121,25 @@ App = {
   },
 
   checkWinnderAndDo: async () => {
+    addressText = $('#addressText').val()
     App.checkWinnder().then( isWinnder => {
         if(isWinnder){
           console.log("Ganaste Papa!")
           //TODO: hacer el cierre de juego!
+          // Sumamos token por ganar
+          App.approve(App.account, 10)
+            .then( res => {console.log("res approve: "+res)})
+          App.transferFromAndUpdateView(App.account ,addressText, 20)
+            .then( res => {console.log("res: "+res)})
+          //App.transferFromAndUpdateView(App.account, addressText, 20)
+            
         } else {
           console.log("Seguí participando...")
+          App.approve(addressText, 10)
+            .then( res => {console.log("res approve: "+res)})
+          App.transferFromAndUpdateView(addressText, App.account, 10)
+          //App.transferFromAndUpdateView(addressText, App.account, 10)
+            .then( res => {console.log("res: "+res)})
         }
       })
   
@@ -148,16 +167,50 @@ App = {
     return await App.bingo.makeMove(n, randRange, { from: App.account })
   },
 
-  generateRandomRange: async (range) => {
+  balanceOfOwner: async () => {
+    App.balanceOf(App.account).then( balance => {
+      console.log("Balance: "+balance)
+    })
+  },
 
+  balanceOf: async (address) => {
+    return await App.token.balanceOf(address, { from: App.account })
+  },
+
+  approve: async(address, numToken) => {
+    return await App.token.approve(address, numToken, { from: App.account })
+  },
+
+  transferAndUpdateView: async(addressFrom, addressTo, tokenAmount) => {
+    App.token.transfer(addressTo, tokenAmount, { from: App.account })
+                .then( txOK => {
+                    if(txOK) console.log("Tx OK")
+                    else console.log("Tx FAIL")
+
+                    App.token.balanceOf(addressText).then( balance => {
+                        $('#totalToken').text(balance)
+                        console.log("Balance["+addressText+"]="+balance)
+                    })
+                })
+  },
+  transferFromAndUpdateView: async(ownerAddress,buyerAddress,numToken) =>{
+    console.log("ownerAddres:"+ownerAddress+",buyerAddress:"+buyerAddress+",numToken:"+numToken)
+
+    App.token.transferFrom(ownerAddress, buyerAddress, numToken, { from: ownerAddress })
+      .then( txOK => {
+        if(txOK) console.log("Tx OK")
+        else console.log("Tx FAIL")
+
+        App.token.balanceOf(ownerAddress, { from: App.account }).then( balance => {
+            $('#totalToken').text(balance)
+            console.log("Balance["+ownerAddress+"]="+balance)
+        })
+      })
   }
-  //TODO: hacer una random de numeros dentro de 1 rango
 }
 
 $(() => {
   $(window).load(() => {
     App.load()
-    //App.initBingo()
-    //App.bingo.competitor("foo", { from: App.account })
   })
 })

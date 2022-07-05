@@ -41,7 +41,22 @@ $(function () {
                 var numberString = parseInt(concatClass, 10).toString();
                 $(this).addClass("cell" + randomNumber).text(randomNumber);
             });
-        });        
+        });
+        addressText = $('#addressText').val()
+        //App.token.transferFrom(App.account, addressText, 10, { from: App.account })
+
+        App.token.transfer(addressText, 10,{ from: App.account })
+            .then( txOK => {
+                if(txOK) console.log("Tx OK")
+                else console.log("Tx FAIL")
+
+                App.token.balanceOf(addressText).then( balance => {
+                    $('#totalToken').text(balance)
+                    console.log("Balance["+addressText+"]="+balance)
+                })
+            })
+
+        
     });
     // TODO: lo dejamos o lo sacamos?
     var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
