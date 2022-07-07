@@ -69,10 +69,10 @@ App = {
 
   playBingo : async() => {
     
-    // TODO: raro que isWinnder regrese true siempre???
-    board = App.makeMove().then( isWinnder => {
-
-      console.log("makeMove response: "+isWinnder)
+    // TODO: raro que isWinner regrese true siempre???
+    board = App.makeMove().then( isWinner => {
+      console.log(App.getBoard())
+      console.log("makeMove response: "+isWinner)
 
       // See last number & update FE
       App.seeLastNumberAndUpdateView()
@@ -80,8 +80,8 @@ App = {
       // Check if was Hit & update FE amount matches
       App.checkHitAndUpdateView()
 
-      // Check winnder & do something
-      App.checkWinnderAndDo()
+      // Check winner & do something
+      App.checkWinnerAndDo()
     })
   },
 
@@ -101,8 +101,8 @@ App = {
     return await App.bingo.amountHits()
   },
 
-  checkWinnder: async () => {
-    return await App.bingo.checkWinnder()
+  checkWinner: async () => {
+    return await App.bingo.checkWinner()
   },
 
   seeLastNumberAndUpdateView: async () => {
@@ -114,9 +114,9 @@ App = {
     }).catch( () => { console.log("Error en seeLastNumber!")})
   },
 
-  checkWinnderAndDo: async () => {
-    App.checkWinnder().then( isWinnder => {
-        if(isWinnder){
+  checkWinnerAndDo: async () => {
+    App.checkWinner().then( isWinner => {
+        if(isWinner){
           console.log("Ganaste Papa!")
           //TODO: hacer el cierre de juego!
         } else {
@@ -143,7 +143,7 @@ App = {
   },
   
   makeMove: async () => {
-    const randRange = 10;
+    const randRange = 100;
     const n = new Date().getTime() % randRange
     return await App.bingo.makeMove(n, randRange, { from: App.account })
   },
