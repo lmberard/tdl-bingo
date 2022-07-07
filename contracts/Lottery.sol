@@ -13,7 +13,7 @@ contract Lottery {
         uint256 amountHits;
     }
     Participant player;
-    address private owner;
+    address private owner; //esta es la wallet del jugador
     address private winner;
     uint256 private roundNumber;
     int256 private lastNumber;
@@ -46,6 +46,11 @@ contract Lottery {
     }
 
     // GAME LOGIC ----------------------------------------------
+    function collectMoney(uint256 collectedMoney) public view returns (address){
+        return owner;
+    }
+
+
     function amountHits() public view returns(uint256) {
         return player.amountHits;
     }

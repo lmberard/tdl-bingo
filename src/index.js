@@ -62,7 +62,7 @@ $(function () {
     });
 
     $('#btnCollect').click(function () {
-        
+        App.collectMoney();
     });
     $('#btnDonate').click(function () {
         

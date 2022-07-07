@@ -131,7 +131,7 @@ App = {
         var amountMatches = $('#amountMatches').text()
         amountMatches = parseInt(amountMatches) + 1
 
-        var collectedMoney = 0.001 * parseInt(amountMatches) //0.001 eth per match
+        var collectedMoney = 1 * parseInt(amountMatches) //1 eth per match
 
         console.log("Was Hit!, matches: " + amountMatches)
         $('#amountMatches').text(parseInt(amountMatches))
@@ -145,6 +145,13 @@ App = {
         $('#amountLostNumbers').text(parseInt(amountLoseMatches)+1)
       }
     })
+  },
+
+  collectMoney: async () =>{
+    var collectedMoney = $('#collectedMoney').text()
+    console.log("pipo, esto estas probando capo: " + collectedMoney)
+    str = await App.bingo.collectMoney(collectedMoney, { from: App.account });
+    console.log("pipo, el owner es: "+str)
   },
   
   makeMove: async () => {
