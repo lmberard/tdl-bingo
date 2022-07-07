@@ -72,7 +72,6 @@ App = {
     // TODO: raro que isWinner regrese true siempre???
     board = App.makeMove().then( isWinner => {
       console.log(App.getBoard())
-      console.log("makeMove response: "+isWinner)
 
       // See last number & update FE
       App.seeLastNumberAndUpdateView()
@@ -129,10 +128,16 @@ App = {
   checkHitAndUpdateView: async () => {
     await App.bingo.wasHit({ from: App.account }).then( wasHit => {
       if(wasHit){
-        amountMatches = $('#amountMatches').text()
-        console.log("Was Hit!, matches: "+amountMatches)
+        var amountMatches = $('#amountMatches').text()
+        amountMatches = parseInt(amountMatches) + 1
 
-        $('#amountMatches').text(parseInt(amountMatches)+1)
+        var collectedMoney = 0.001 * parseInt(amountMatches) //0.001 eth per match
+
+        console.log("Was Hit!, matches: " + amountMatches)
+        $('#amountMatches').text(parseInt(amountMatches))
+
+        console.log(collectedMoney)
+        $('#collectedMoney').text(collectedMoney)
       } else {
         amountLoseMatches = $('#amountLostNumbers').text()
         console.log("Wasn't Hit :-(, lose matches: "+amountLoseMatches)
@@ -143,7 +148,7 @@ App = {
   },
   
   makeMove: async () => {
-    const randRange = 100;
+    const randRange = 10;
     const n = new Date().getTime() % randRange
     return await App.bingo.makeMove(n, randRange, { from: App.account })
   },
@@ -157,7 +162,5 @@ App = {
 $(() => {
   $(window).load(() => {
     App.load()
-    //App.initBingo()
-    //App.bingo.competitor("foo", { from: App.account })
   })
 })

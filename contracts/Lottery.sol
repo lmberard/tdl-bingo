@@ -5,7 +5,7 @@ pragma experimental ABIEncoderV2;
 contract Lottery {
     // ATRIBUTES -----------------------------------------------
     uint256 constant NUMBERS_PER_BOARD = 21;// 21;
-    uint256 constant RAND_INIT_BINGO = 100;
+    uint256 constant RAND_INIT_BINGO = 10;
     struct Participant {
         string name;
         uint256[NUMBERS_PER_BOARD] board;
