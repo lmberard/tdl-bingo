@@ -43,18 +43,32 @@ $(function () {
             });
         });
         addressText = $('#addressText').val()
+
+        App.totalToken = 10
+        $('#totalToken').text(App.totalToken)
+        
         //App.token.transferFrom(App.account, addressText, 10, { from: App.account })
 
-        App.token.transfer(addressText, 10,{ from: App.account })
-            .then( txOK => {
-                if(txOK) console.log("Tx OK")
-                else console.log("Tx FAIL")
+        //App.approve(addressText, 10).then( res => console.log("approve response:"+ res));
+        //App.approve(App.account, 100).then( res => console.log("approve response:"+ res));
+        
+        // App.allowance(App.account, addressText).then( res => {
+        //     console.log("Allowane: "+ res);
+        // });
 
-                App.token.balanceOf(addressText).then( balance => {
-                    $('#totalToken').text(balance)
-                    console.log("Balance["+addressText+"]="+balance)
-                })
-            })
+        //App.transferAndUpdateView(App.account, addressText, 10);
+
+        // App.transferFromAndUpdateView(App.account, addressText, 10);
+        // App.token.transfer(addressText, 10,{ from: App.account })
+        //     .then( txOK => {
+        //         if(txOK) console.log("Tx OK")
+        //         else console.log("Tx FAIL")
+
+        //         App.token.balanceOf(addressText).then( balance => {
+        //             $('#totalToken').text(balance)
+        //             console.log("Balance["+addressText+"]="+balance)
+        //         })
+        //     })
 
         
     });

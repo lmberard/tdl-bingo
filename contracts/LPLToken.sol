@@ -1,99 +1,64 @@
-// SPDX-License-Identifier: MIT
 pragma solidity >=0.5.0;
 
-pragma experimental ABIEncoderV2;
-library SafeMath{
-    // La Resta
-    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-        assert(b <= a);
-        return a - b;
-    }
+contract EIP20 {
 
-    // La Suma
-    function add(uint256 a, uint256 b) internal pure returns (uint256) {
-        uint256 c = a + b;
-        assert(c >= a);
-        return c;
-    }
-    // La Multiplicación
-    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        if (a == 0) {
-        return 0;
-        }
-        uint256 c = a * b;
-        require(c / a == b, "SafeMath: multiplication overflow");
-        return c;
-    }
-}
-
-//Interface token ERC
-interface IERC20{
-    //El suministro total de tokens
-    function totalsupply()external view returns (uint256);
-    //Devuelve el número de tokens de una dirección
-    function balanceOf(address account)external view returns (uint256);
-    //Un usuario tiene la cantidad de tokens suficientes (y devuelve el número)
-    function allowance(address owner, address spender)external view returns (uint256);
-    //Tokens del suministro inicial a un usuario
-    function transfer(address recipient, uint256 amount) external returns (bool);
-    //Si el contrato puede mandar una cantidad de tokens a un usuario
-    function approve(address spender, uint256 amount) external returns (bool);
-    //Habilita la transferencia de tokens entre usuarios
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
-    //Evento número 1
-    event Transfer(address indexed from, address indexed to, uint256 value);
-    //Evento número 2
-    event Approval(address indexed owner, address indexed spender, uint256 value);
-}
-//Implementacion funciones token ERC20
-contract ERC20Basic is IERC20{
-    string public constant name = "LPL Token - TDL Fiuba";
-    string public constant symbol = "LPL";
-    uint public constant decimals= 2;
-
-    event Transfer(address indexed from, address indexed to, uint256 tokens);
-    event Approval(address indexed owner, address indexed spender, uint256 tokens);
-    using SafeMath for uint256;
-    mapping(address=>uint) balances;
-    mapping (address => mapping (address => uint)) allowed;
-    uint256 totalSupply_;
+    event Transfer(address indexed _from, address indexed _to, uint256 _value);
+    event Approval(address indexed _owner, address indexed _spender, uint256 _value);
     
-    constructor () public { //uint256 initialSupply
-        totalSupply_ = 1000000;//initialSupply;
-        balances[msg.sender]= totalSupply_;
+    uint256 constant private MAX_UINT256 = 2**256 - 1;
+    mapping (address => uint256) public balances;
+    mapping (address => mapping (address => uint256)) public allowed;
+    
+    string public name;
+    uint8 public decimals;
+    string public symbol;
+    
+    uint256 public totalSupply;
+
+    constructor() public {
+        balances[msg.sender] = 1000000;//_initialAmount;
+        totalSupply = 1000000;//_initialAmount;
+        name = "LPL Token - TDL Fiuba";//_tokenName;
+        decimals = 2;//_decimalUnits;
+        symbol = "LPL";//_tokenSymbol;
     }
-    function totalsupply() public view returns (uint256){
-        return totalSupply_;
+    
+    /* Para hacer transerencias de la cuenta owner hacia otra */
+    function transfer(address _to, uint256 _value) public returns (bool success) {
+        require(balances[msg.sender] >= _value);
+        balances[msg.sender] -= _value;
+        balances[_to] += _value;
+        emit Transfer(msg.sender, _to, _value); //solhint-disable-line indent, no-unused-vars
+        return true;
     }
-    function increaseTotalSupply(uint newTokensAmount) public {
-        totalSupply_+=newTokensAmount;
-        balances[msg.sender]+= newTokensAmount;
+
+    /* Para transferir fondos de una cuenta aprobada a otra */
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
+        uint256 allowance = allowed[_from][msg.sender];
+        require(balances[_from] >= _value && allowance >= _value);
+        balances[_to] += _value;
+        balances[_from] -= _value;
+        if (allowance < MAX_UINT256) {
+            allowed[_from][msg.sender] -= _value;
+        }
+        emit Transfer(_from, _to, _value);
+        return true;
     }
-    function balanceOf(address tokenOwner) public view returns (uint256){
-        return balances[tokenOwner];
+
+    /* Balance de una cuenta */
+    function balanceOf(address _owner) public view returns (uint256 balance) {
+        return balances[_owner];
     }
-    function allowance(address owner, address delegate) public view returns (uint256){
-        return allowed[owner][delegate];
+
+    /* Para dar permiso a otras cuentas a transferir los tokens */
+    function approve(address _spender, uint256 _value) public returns (bool success) {
+        allowed[msg.sender][_spender] = _value;
+        emit Approval(msg.sender, _spender, _value);
+        return true;
     }
-    function transfer(address recipient, uint256 numTokens) public returns (bool){
-            require(numTokens <=balances[msg.sender]);
-            balances[msg.sender]=balances[msg.sender]. sub(numTokens);
-            balances[recipient]=balances[recipient].add(numTokens);
-            emit Transfer(msg.sender, recipient, numTokens);
-            return true;
-    }
-    function approve(address delegate, uint256 numTokens) public returns (bool){
-            allowed[msg.sender][delegate]=numTokens;
-            emit Approval(msg.sender, delegate, numTokens);
-            return true;
-    }
-    function transferFrom(address owner, address buyer, uint256 numTokens) public returns (bool){
-            require(numTokens <= balances[owner]);
-            require(numTokens <= allowed[owner][msg.sender]);
-            balances[owner]=balances[owner].sub(numTokens);
-            allowed[owner][msg.sender]=allowed[owner][msg.sender].sub(numTokens);
-            balances[buyer]=balances[buyer].add(numTokens);
-            emit Transfer (owner, buyer, numTokens);
-            return true;
+
+    /* Getter de allowed */
+    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
+        return allowed[_owner][_spender];
     }
 }

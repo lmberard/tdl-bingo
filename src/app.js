@@ -1,4 +1,5 @@
 App = {
+  totalToken: 0,
   contracts: {},
 
   load: async () => {
@@ -75,7 +76,7 @@ App = {
 
   playBingo : async() => {
     
-    // TODO: raro que isWinnder regrese true siempre???
+    // TODO: por que isWinnder regresa true siempre??? It's OK?
     board = App.makeMove().then( isWinnder => {
 
       console.log("makeMove response: "+isWinnder)
@@ -127,19 +128,25 @@ App = {
           console.log("Ganaste Papa!")
           //TODO: hacer el cierre de juego!
           // Sumamos token por ganar
-          App.approve(App.account, 10)
-            .then( res => {console.log("res approve: "+res)})
-          App.transferFromAndUpdateView(App.account ,addressText, 20)
-            .then( res => {console.log("res: "+res)})
-          //App.transferFromAndUpdateView(App.account, addressText, 20)
-            
+          // App.approve(App.account, 10)
+          //   .then( res => {console.log("res approve: "+res)})
+          // App.transferFromAndUpdateView(App.account ,addressText, 20)
+          //   .then( res => {console.log("res: "+res)})
+          tokenWin = 1000;
+          App.totalToken = tokenWin/100;
+          App.approve(addressText, tokenWin)
+          App.transferAndUpdateView(App.account, addressText, tokenWin)
+          console.log("Token transferidos!", tokenWin)
         } else {
           console.log("Seguí participando...")
-          App.approve(addressText, 10)
-            .then( res => {console.log("res approve: "+res)})
-          App.transferFromAndUpdateView(addressText, App.account, 10)
-          //App.transferFromAndUpdateView(addressText, App.account, 10)
-            .then( res => {console.log("res: "+res)})
+          App.totalToken -= 1;
+
+          $('#totalToken').text(App.totalToken)
+
+          if(App.totalToken == 0){
+            console.log("El juego se ha terminado!")
+            window.location.href = "/endGame.html"
+          }
         }
       })
   
@@ -181,8 +188,12 @@ App = {
     return await App.token.approve(address, numToken, { from: App.account })
   },
 
+  allowance: async(addressOwner, addressDelegate) => {
+    return await App.token.allowance(addressOwner, addressDelegate)
+  },
+
   transferAndUpdateView: async(addressFrom, addressTo, tokenAmount) => {
-    App.token.transfer(addressTo, tokenAmount, { from: App.account })
+    App.token.transfer(addressTo, tokenAmount, { from: addressFrom })
                 .then( txOK => {
                     if(txOK) console.log("Tx OK")
                     else console.log("Tx FAIL")
@@ -193,17 +204,18 @@ App = {
                     })
                 })
   },
-  transferFromAndUpdateView: async(ownerAddress,buyerAddress,numToken) =>{
-    console.log("ownerAddres:"+ownerAddress+",buyerAddress:"+buyerAddress+",numToken:"+numToken)
 
-    App.token.transferFrom(ownerAddress, buyerAddress, numToken, { from: ownerAddress })
+  transferFromAndUpdateView: async(fromAddress, toAddress, numToken) =>{
+    console.log("fromAddress: "+fromAddress+",toAddress: "+toAddress+",numToken: "+numToken)
+    //App.approve(toAddress, numToken, {from: fromAddress});
+    App.token.transferFrom(fromAddress, toAddress, numToken, { from: App.account })
       .then( txOK => {
         if(txOK) console.log("Tx OK")
         else console.log("Tx FAIL")
 
-        App.token.balanceOf(ownerAddress, { from: App.account }).then( balance => {
+        App.token.balanceOf(fromAddress, { from: App.account }).then( balance => {
             $('#totalToken').text(balance)
-            console.log("Balance["+ownerAddress+"]="+balance)
+            console.log("Balance["+fromAddress+"]="+balance)
         })
       })
   }
