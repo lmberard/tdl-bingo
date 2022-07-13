@@ -44,7 +44,7 @@ $(function () {
         });
         addressText = $('#addressText').val()
 
-        App.totalToken = 3
+        App.totalToken = App.initToken
 
         $('#totalToken').text(App.totalToken)
 
@@ -52,54 +52,23 @@ $(function () {
             console.log("balance in wallet:"+res) 
             $("#totalTokenWallet").text(res)
         })
-        
-
-        //App.token.transferFrom(App.account, addressText, 10, { from: App.account })
-
-        //App.approve(addressText, 10).then( res => console.log("approve response:"+ res));
-        //App.approve(App.account, 100).then( res => console.log("approve response:"+ res));
-        
-        // App.allowance(App.account, addressText).then( res => {
-        //     console.log("Allowane: "+ res);
-        // });
-
-        //App.transferAndUpdateView(App.account, addressText, 10);
-
-        // App.transferFromAndUpdateView(App.account, addressText, 10);
-        // App.token.transfer(addressText, 10,{ from: App.account })
-        //     .then( txOK => {
-        //         if(txOK) console.log("Tx OK")
-        //         else console.log("Tx FAIL")
-
-        //         App.token.balanceOf(addressText).then( balance => {
-        //             $('#totalToken').text(balance)
-        //             console.log("Balance["+addressText+"]="+balance)
-        //         })
-        //     })
-
-        
     });
-    // TODO: lo dejamos o lo sacamos?
-    var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
+
     $('#btnGenerate').click(function () {
-        //$( "#containerGameID" ).show("slow");
-        //$( "#containerGameID" ).css({'style':'display: block'})
         App.playBingo();
-        
+    });
 
-    });
     $('#btnIncrease').click(function (amountMatches) {
-        // amountMatches++;
-        // console.log("amount: "+amountMatches)
-        // $('#amountMatches').text(amountMatches);
+        console.log("Implementar!!!")
     });
+
     $('#btnEasierCard').click(function () {
-        
+        console.log("Implementar!!!")
     });
 
     $('#btnCollect').click(function (e) {
         addressText = $('#addressText').val()
-        console.log("Collect token "+App.totalToken+"to address "+addressText)
+        console.log("Collect token "+App.totalToken+" to address "+addressText)
 
         e.preventDefault();
 

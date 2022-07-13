@@ -1,4 +1,5 @@
 App = {
+  initToken: 3,
   totalToken: 0,
   contracts: {},
 
@@ -64,7 +65,6 @@ App = {
   },
 
   generateRandomNumber: async () => {
-    //Llamada al contrato
     const n = new Date().getTime() % 100
     const randomNumber = await App.bingo.generateRandom(n, 100)
     console.log("random number: "+ randomNumber.toString())
