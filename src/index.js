@@ -44,9 +44,16 @@ $(function () {
         });
         addressText = $('#addressText').val()
 
-        App.totalToken = 10
+        App.totalToken = 3
+
         $('#totalToken').text(App.totalToken)
+
+        App.token.balanceOf(addressText).then(res => {
+            console.log("balance in wallet:"+res) 
+            $("#totalTokenWallet").text(res)
+        })
         
+
         //App.token.transferFrom(App.account, addressText, 10, { from: App.account })
 
         //App.approve(addressText, 10).then( res => console.log("approve response:"+ res));
@@ -90,11 +97,22 @@ $(function () {
         
     });
 
-    $('#btnCollect').click(function () {
-        
+    $('#btnCollect').click(function (e) {
+        addressText = $('#addressText').val()
+        console.log("Collect token "+App.totalToken+"to address "+addressText)
+
+        e.preventDefault();
+
+        App.transferAndLoadPage(App.account, addressText, App.totalToken)
+
+        // Clean FE
+        App.totalToken = 0
+        $("#totalTokenWallet").text(0)
+        $('#totalToken').text(0)
     });
+
     $('#btnDonate').click(function () {
-        
+        console.log("Implementar!!!")
     });
 
     window.onbeforeunload = function (e) {

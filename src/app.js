@@ -125,13 +125,7 @@ App = {
     addressText = $('#addressText').val()
     App.checkWinnder().then( isWinnder => {
         if(isWinnder){
-          console.log("Ganaste Papa!")
-          //TODO: hacer el cierre de juego!
-          // Sumamos token por ganar
-          // App.approve(App.account, 10)
-          //   .then( res => {console.log("res approve: "+res)})
-          // App.transferFromAndUpdateView(App.account ,addressText, 20)
-          //   .then( res => {console.log("res: "+res)})
+          console.log("Ganaste!")
           tokenWin = 1000;
           App.totalToken = tokenWin/100;
           App.approve(addressText, tokenWin)
@@ -149,7 +143,11 @@ App = {
           }
         }
       })
-  
+    
+    App.balanceOf(addressText).then(res => {
+      $("#totalTokenWallet").text(res)
+    })
+     
   },
 
   checkHitAndUpdateView: async () => {
@@ -191,6 +189,26 @@ App = {
   allowance: async(addressOwner, addressDelegate) => {
     return await App.token.allowance(addressOwner, addressDelegate)
   },
+
+  transferAndLoadPage: async(addressFrom, addressTo, tokenAmount) => {
+    App.approve(addressTo, tokenAmount)
+    App.token.transfer(addressTo, tokenAmount, { from: addressFrom })
+                .then( txOK => {
+                    if(txOK) console.log("Tx OK")
+                    else console.log("Tx FAIL")
+
+                    window.location.href = '/endGame.html'
+                  })
+  },
+
+  transfer: async(addressFrom, addressTo, tokenAmount) => {
+    App.approve(addressTo, tokenAmount)
+    App.token.transfer(addressTo, tokenAmount, { from: addressFrom })
+                .then( txOK => {
+                    if(txOK) console.log("Tx OK")
+                    else console.log("Tx FAIL")
+                }
+  )},
 
   transferAndUpdateView: async(addressFrom, addressTo, tokenAmount) => {
     App.token.transfer(addressTo, tokenAmount, { from: addressFrom })
