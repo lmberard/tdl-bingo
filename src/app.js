@@ -1,6 +1,7 @@
 App = {
   initToken: 3,
   totalToken: 0,
+  prize: 100,
   contracts: {},
 
   load: async () => {
@@ -53,6 +54,9 @@ App = {
     // Create a JavaScript version of the smart contract
     const bingo = await $.getJSON('Lottery.json')
     App.contracts.Bingo = TruffleContract(bingo)
+
+    //console.log("address contract:"+App.contracts.Bingo.address)
+
     App.contracts.Bingo.setProvider(App.web3Provider)
     // Hydrate the smart contract with values from the blockchain
     App.bingo = await App.contracts.Bingo.deployed()
@@ -62,6 +66,8 @@ App = {
     App.contracts.Token = TruffleContract(token)
     App.contracts.Token.setProvider(App.web3Provider)
     App.token = await App.contracts.Token.deployed()
+
+    //App.transfer(App.contracts.Bingo.addres,1000000, {from: App.account})
   },
 
   generateRandomNumber: async () => {
@@ -126,19 +132,25 @@ App = {
     App.checkWinnder().then( isWinnder => {
         if(isWinnder){
           console.log("Ganaste!")
-          tokenWin = 1000;
-          App.totalToken = tokenWin/100;
-          App.approve(addressText, tokenWin)
-          App.transferAndUpdateView(App.account, addressText, tokenWin)
+          //tokenWin = App.initToken;
+          tokenWin = parseInt($('#totalToken').val()) + App.prize
+          // Divimos por 100 porque los ultimos 2 numeros representan los decimales
+          App.totalToken = tokenWin
+          // Autorizo a addressText a transferir la cantidad tokenWin
+          //App.approve(addressText, tokenWin)
+          App.approve(App.account, tokenWin)
+
+          App.transferAndUpdateView(App.contracts.Bingo.address, App.account, tokenWin)
           console.log("Token transferidos!", tokenWin)
         } else {
           console.log("Seguí participando...")
           App.totalToken -= 1;
-
+          // Update View
           $('#totalToken').text(App.totalToken)
 
           if(App.totalToken == 0){
             console.log("El juego se ha terminado!")
+            
             window.location.href = "/endGame.html"
           }
         }

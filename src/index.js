@@ -32,6 +32,9 @@ $(function () {
 
     $('#btnStartGame').click(function () {
         App.initBingo();
+
+        App.token.transfer(App.contracts.Bingo.address, 100000000, {from: App.account})
+
         console.log("Init Bingo ... OK");
         board = App.getBoard().then(board => {
             console.log("Board created: "+board);
@@ -42,16 +45,20 @@ $(function () {
                 $(this).addClass("cell" + randomNumber).text(randomNumber);
             });
         });
-        addressText = $('#addressText').val()
+        // addressText = App.account //$('#addressText').val()
+        console.log("Selected Account:"+App.account)
 
         App.totalToken = App.initToken
 
         $('#totalToken').text(App.totalToken)
 
-        App.token.balanceOf(addressText).then(res => {
-            console.log("balance in wallet:"+res) 
+        App.token.balanceOf(App.account).then(res => {
+            console.log("balance in wallet["+App.account+"]: "+res) 
             $("#totalTokenWallet").text(res)
         })
+
+        
+
     });
 
     $('#btnGenerate').click(function () {
