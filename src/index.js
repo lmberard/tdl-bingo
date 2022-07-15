@@ -1,4 +1,7 @@
 $(function () {
+    const priceNotMatch = 0.1, priceIncrease = 1, priceEasierCard = 10;
+    const rewardMatch = 0.4, rewardCompleteLine = 100, rewardBingo = 1000;
+
     var bingo = {
         selectedNumbers:[],
         generateRandom:function () {
@@ -26,20 +29,33 @@ $(function () {
             return random;
         }
     };
-    $('td').each(function () {
-        var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
-        var randomNumber = bingo.generateTableRandom().toString();
-        var numberString = parseInt(concatClass, 10).toString();
-        $(this).addClass("cell" + randomNumber).text(randomNumber);
+
+    $('#btnStartGame').click(function () {
+        App.initBingo();
+        console.log("Init Bingo ... OK");
+        board = App.getBoard().then(board => {
+            console.log("Board created: "+board);
+            $('td').each(function (index) {
+                var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
+                var randomNumber = board[index];
+                var numberString = parseInt(concatClass, 10).toString();
+                $(this).addClass("cell" + randomNumber).text(randomNumber);
+            });
+        });        
     });
+    // TODO: lo dejamos o lo sacamos?
     var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
     $('#btnGenerate').click(function () {
+        //$( "#containerGameID" ).show("slow");
+        //$( "#containerGameID" ).css({'style':'display: block'})
         App.playBingo();
+        
+
     });
     $('#btnIncrease').click(function (amountMatches) {
-        amountMatches++;
-        console.log("amount: "+amountMatches)
-        $('#amountMatches').text(amountMatches);
+        // amountMatches++;
+        // console.log("amount: "+amountMatches)
+        // $('#amountMatches').text(amountMatches);
     });
     $('#btnEasierCard').click(function () {
         

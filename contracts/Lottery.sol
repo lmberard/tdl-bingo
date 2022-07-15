@@ -4,14 +4,15 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery {
     // ATRIBUTES -----------------------------------------------
-    uint256 constant NUMBERS_PER_CARD = 2;
+    uint256 constant NUMBERS_PER_BOARD = 1;// 21;
+    uint256 constant RAND_INIT_BINGO = 10;
     struct Participant {
         string name;
-        uint256[NUMBERS_PER_CARD] card;
-        uint256[NUMBERS_PER_CARD] hits;
+        uint256[NUMBERS_PER_BOARD] board;
+        uint256[NUMBERS_PER_BOARD] hits;
         uint256 amountHits;
     }
-    Participant[] private participants;
+    Participant player;
     address private owner;
     address private winner;
     uint256 private roundNumber;
@@ -45,36 +46,31 @@ contract Lottery {
     }
 
     // GAME LOGIC ----------------------------------------------
-    function checkWinnder() private view returns (bool) {
-        for (uint256 i; i < participants.length; i++) {
-            if (participants[i].amountHits == NUMBERS_PER_CARD) {
-                return true;
-            }
-        }
-        return false;
+    function amountHits() public view returns(uint256) {
+        return player.amountHits;
+    }
+
+    function checkWinnder() public view returns (bool) {
+        return player.amountHits == NUMBERS_PER_BOARD;
+        // if (player.amountHits == NUMBERS_PER_BOARD)
+        //     return true;
+        // return false;
     }
 
     function addHit(int256 _outNumber) private {
-        for (uint256 i = 0; i < participants.length; i++) {
-            Participant memory part = participants[i];
-            for (uint256 j = 0; j < part.card.length; j++) {
-                if (part.card[j] == uint256(_outNumber)) {
-                    participants[i].amountHits++;
-                    break;
-                }
+        for (uint256 j = 0; j < player.board.length; j++) {
+            if (player.board[j] == uint256(_outNumber)) {
+                player.amountHits++;
+                break;
             }
-        }
+        }    
     }
 
     function wasHit() public view returns (bool) {
         uint256 lastHit = uint256(seeLastNumber());
-
-        for (uint256 i = 0; i < participants.length; i++) {
-            Participant memory part = participants[i];
-            for (uint256 j = 0; j < part.card.length; j++) {
-                if (part.card[j] == lastHit) {
-                    return true;
-                }
+        for (uint256 j = 0; j < player.board.length; j++) {
+            if (player.board[j] == lastHit) {
+                return true;
             }
         }
         return false;
@@ -84,30 +80,25 @@ contract Lottery {
         roundNumber++;
     }
 
-    function participate(string memory _name) public {
-        uint256[NUMBERS_PER_CARD] memory rands;
-        uint256[NUMBERS_PER_CARD] memory acs;
-        uint256 rangeRand = 10;
+    function competitor(string memory _name) public {
+        uint256[NUMBERS_PER_BOARD] memory rands;
+        uint256[NUMBERS_PER_BOARD] memory acs;
+        uint256 rangeRand = RAND_INIT_BINGO;
 
-        for (uint256 i = 0; i < NUMBERS_PER_CARD; i++) {
-            rands[i] = rand((bytes(_name).length + i) % rangeRand, rangeRand);
-            acs[i] = 0;
+        if(bytes(player.name).length == 0){
+            for (uint256 i = 0; i < NUMBERS_PER_BOARD; i++) {
+                rands[i] = rand((bytes(_name).length + i) % rangeRand, rangeRand);
+                acs[i] = 0;
+            }
+            player.name = _name;
+            player.board = sort_array(rands);
+            player.hits = acs;
+            player.amountHits = 0;
         }
-
-        Participant memory part = Participant(_name, rands, acs, 0);
-        participants.push(part);
     }
 
-    function seeCard(uint256 _id)
-        public
-        view
-        returns (uint256[NUMBERS_PER_CARD] memory)
-    {
-        if (_id <= participants.length - 1) {
-            Participant memory part = participants[_id];
-            return part.card;
-        }
-        return [uint256(0), 0];
+    function getBoard() public view returns (uint256[NUMBERS_PER_BOARD] memory){
+        return player.board;
     }
 
     function generateRandom(uint256 _n, uint256 _range)
@@ -126,5 +117,19 @@ contract Lottery {
         addHit(lastNumber);
 
         return checkWinnder();
+    }
+
+    function sort_array(uint[NUMBERS_PER_BOARD] memory arr) private pure returns (uint[NUMBERS_PER_BOARD] memory) {
+        uint l = arr.length;
+        for(uint i = 0; i < l; i++) {
+            for(uint j = i+1; j < l ;j++) {
+                if(arr[i] > arr[j]) {
+                    uint temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+        return arr;
     }
 }

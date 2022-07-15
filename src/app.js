@@ -1,21 +1,44 @@
 App = {
-    contracts: {},
+  contracts: {},
 
-    load: async () => {
-        await App.loadWeb3()
-        await App.loadAccount()
-        await App.loadContract()
-        web3.eth.defaultAccount = web3.eth.accounts[0]
-      },
-    
-    loadWeb3: async () => {
-      if (typeof web3 !== 'undefined') {
-        App.web3Provider = web3.currentProvider
-        web3 = new Web3(web3.currentProvider)
-      } else {
-        window.alert("Please connect to Metamask.")
-      }
+  load: async () => {
+      await App.loadWeb3()
+      await App.loadAccount()
+      await App.loadContract()
+      web3.eth.defaultAccount = web3.eth.accounts[0]
     },
+  
+  loadWeb3: async () => {
+    if (typeof web3 !== 'undefined') {
+      App.web3Provider = web3.currentProvider
+      web3 = new Web3(web3.currentProvider)
+    } else {
+      window.alert("Please connect to Metamask.")
+    }
+    // Modern dapp browsers...
+    if (window.ethereum) {
+      window.web3 = new Web3(ethereum)
+      try {
+        // Request account access if needed
+        await ethereum.enable()
+        // Acccounts now exposed
+        web3.eth.sendTransaction({/* ... */})
+      } catch (error) {
+        // User denied account access...
+      }
+    }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+      App.web3Provider = web3.currentProvider
+      window.web3 = new Web3(web3.currentProvider)
+      // Acccounts always exposed
+      web3.eth.sendTransaction({/* ... */})
+    }
+    // Non-dapp browsers...
+    else {
+      console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
+    }
+  },
 
   loadAccount: async () => {
     // Set the current blockchain account
@@ -44,26 +67,85 @@ App = {
     return randomNumber
   },
 
-  checkHit: async () => {
-    const wasHit = await App.bingo.wasHit()
-    console.log("checkHit: "+wasHit);
+  playBingo : async() => {
+    
+    // TODO: raro que isWinnder regrese true siempre???
+    board = App.makeMove().then( isWinnder => {
 
-    amountMatches = $('#amountMatches').text()
-    $('#amountMatches').text(parseInt(amountMatches)+1)
+      console.log("makeMove response: "+isWinnder)
+
+      // See last number & update FE
+      App.seeLastNumberAndUpdateView()
+
+      // Check if was Hit & update FE amount matches
+      App.checkHitAndUpdateView()
+
+      // Check winnder & do something
+      App.checkWinnderAndDo()
+    })
   },
 
-  playBingo : async() => {
-    //Agrego un participante!
-    await App.bingo.participate("foo", { from: App.account })
-    //Muestro las cartas
-    card = await App.bingo.seeCard(0, { from: App.account })
-    console.log("card: "+ card.toString())
+  initBingo: async ()  => {
+    await App.bingo.competitor("pipo", { from: App.account })
+  },
 
-    const n = new Date().getTime() % 10
-    const randomNumber = await App.bingo.generateRandom(n, 10)
-    var amountMatches = 0;
-    $('.bigNumberDisplay').text(randomNumber)   
-    $('td.cell' + randomNumber).addClass('selected')
+  getBoard: async () => {
+    return await App.bingo.getBoard({ from: App.account })
+  },
+
+  seeLastNumber: async () => {
+    return await App.bingo.seeLastNumber({ from: App.account })
+  },
+
+  amountHits: async () => {
+    return await App.bingo.amountHits()
+  },
+
+  checkWinnder: async () => {
+    return await App.bingo.checkWinnder()
+  },
+
+  seeLastNumberAndUpdateView: async () => {
+    App.seeLastNumber().then( randomNumber => {
+      console.log("Random number: "+randomNumber)
+
+      $('.bigNumberDisplay').text(randomNumber)
+      $('td.cell' + randomNumber).addClass('selected')
+    }).catch( () => { console.log("Error en seeLastNumber!")})
+  },
+
+  checkWinnderAndDo: async () => {
+    App.checkWinnder().then( isWinnder => {
+        if(isWinnder){
+          console.log("Ganaste Papa!")
+          //TODO: hacer el cierre de juego!
+        } else {
+          console.log("Seguí participando...")
+        }
+      })
+  
+  },
+
+  checkHitAndUpdateView: async () => {
+    await App.bingo.wasHit({ from: App.account }).then( wasHit => {
+      if(wasHit){
+        amountMatches = $('#amountMatches').text()
+        console.log("Was Hit!, matches: "+amountMatches)
+
+        $('#amountMatches').text(parseInt(amountMatches)+1)
+      } else {
+        amountLoseMatches = $('#amountLostNumbers').text()
+        console.log("Wasn't Hit :-(, lose matches: "+amountLoseMatches)
+
+        $('#amountLostNumbers').text(parseInt(amountLoseMatches)+1)
+      }
+    })
+  },
+  
+  makeMove: async () => {
+    const randRange = 10;
+    const n = new Date().getTime() % randRange
+    return await App.bingo.makeMove(n, randRange, { from: App.account })
   },
 
   generateRandomRange: async (range) => {
@@ -75,5 +157,7 @@ App = {
 $(() => {
   $(window).load(() => {
     App.load()
+    //App.initBingo()
+    //App.bingo.competitor("foo", { from: App.account })
   })
 })
