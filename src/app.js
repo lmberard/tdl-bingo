@@ -1,9 +1,10 @@
 App = {
-  initToken: 10,
+  initToken: 3,
   totalTokenBingo: 100000000,
   totalTokenPlayer: 0,
-  prize: 100,
+  prize: 1000,
   contracts: {},
+  bingoAccount: 0,
 
   load: async () => {
       await App.loadWeb3()
@@ -13,13 +14,17 @@ App = {
 
       // Transferimos todo el dinero al address del Bingo
       // en caso de ser necesario
-      balanceUserAccount = App.token.balanceOf(App.account).then(
+      App.token.balanceOf(App.account).then(
         tokenCount => {
             if(tokenCount == App.totalTokenBingo){
-                App.transfer(App.contracts.Bingo.address, tokenCount)
+                console.log("Transfer total token to Bingo ...")
+                App.transfer(App.bingoAccount, tokenCount)
             }
         }
       )
+
+      // Mire el balance del user account
+      App.balanceOfOwner()
   },
   
   loadWeb3: async () => {
@@ -57,8 +62,13 @@ App = {
   loadAccount: async () => {
     // Set the current blockchain account
     const accounts = await web3.eth.getAccounts();
-    console.log("Account: "+accounts[0]);
     App.account = accounts[0];
+    console.log("User Account: "+App.account);
+    
+    //App.bingoAccount = accounts[accounts.length - 1]
+    //web3.eth.getAccounts().then(function(response) { App.bingoAccount = response[1] });
+    App.bingoAccount = "0xba93B807e007C6F4A5A5e9d812b9c036f230Ea44";
+    console.log("Bing Account: "+App.bingoAccount)
   },
 
   loadContract: async () => {
@@ -81,15 +91,15 @@ App = {
     //App.transfer(App.contracts.Bingo.addres,1000000, {from: App.account})
   },
 
-  generateRandomNumber: async () => {
-    const n = new Date().getTime() % 100
-    const randomNumber = await App.bingo.generateRandom(n, 100)
-    console.log("random number: "+ randomNumber.toString())
+  // generateRandomNumber: async () => {
+  //   const n = new Date().getTime() % 100
+  //   const randomNumber = await App.bingo.generateRandom(n, 100)
+  //   console.log("random number: "+ randomNumber.toString())
 
-    $('.bigNumberDisplay').text(randomNumber)
-    $('td.cell' + randomNumber).addClass('selected')
-    return randomNumber
-  },
+  //   $('.bigNumberDisplay').text(randomNumber)
+  //   $('td.cell' + randomNumber).addClass('selected')
+  //   return randomNumber
+  // },
 
   playBingo : async() => {
     
@@ -147,8 +157,9 @@ App = {
           // Divimos por 100 porque los ultimos 2 numeros representan los decimales
           App.totalTokenPlayer = tokenWin
           // Autorizo a addressText a transferir la cantidad tokenWin
-          App.approve(App.account, tokenWin)
-
+          //App.approve(App.account, tokenWin)
+          App.approve(App.contracts.Bingo.address, tokenWin)
+          
           App.transferAndUpdateView(App.contracts.Bingo.address, App.account, tokenWin)
           console.log("Token transferidos!", tokenWin)
         } else {

@@ -56,7 +56,7 @@ $(function () {
         App.totalTokenPlayer = App.initToken
         $('#totalToken').text(App.totalTokenPlayer)
 
-        // Usamos la llamada del token
+        // Seteamos el total token del usuario
         App.token.balanceOf(App.account).then(res => {
             console.log("balance in wallet["+App.account+"]: "+res) 
             $("#totalTokenWallet").text(res)
@@ -72,7 +72,11 @@ $(function () {
 
         e.preventDefault();
 
-        App.transferAndLoadPage(App.account, addressText, App.totalToken)
+        App.token.approve(App.bingoAccount, App.prize, {from: App.bingoAccount})
+
+        //App.transferAndLoadPage(App.account, addressText, App.totalToken)
+        App.token.transferFrom(App.bingoAccount, App.account, App.prize, {from: App.bingoAccount})
+            .then(r => { console.log("resp:"+r)})
 
         // Clean FE
         App.totalToken = 0
