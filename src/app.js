@@ -1,5 +1,5 @@
 App = {
-  initToken: 3,
+  initToken: 10,
   totalTokenBingo: 100000000,
   totalTokenPlayer: 0,
   prize: 100,
@@ -13,7 +13,7 @@ App = {
 
       // Transferimos todo el dinero al address del Bingo
       // en caso de ser necesario
-      balanceUserAccount = App.balanceOf(App.account).then(
+      balanceUserAccount = App.token.balanceOf(App.account).then(
         tokenCount => {
             if(tokenCount == App.totalTokenBingo){
                 App.transfer(App.contracts.Bingo.address, tokenCount)
@@ -139,14 +139,13 @@ App = {
   },
 
   checkWinnderAndDo: async () => {
-    addressText = $('#addressText').val()
     App.checkWinnder().then( isWinnder => {
-        if(isWinnder){
+        if(!isWinnder){
           console.log("Ganaste!")
           //tokenWin = App.initToken;
-          tokenWin = parseInt($('#totalToken').val()) + App.prize
+          tokenWin = parseInt($('#totalToken').text()) + App.prize
           // Divimos por 100 porque los ultimos 2 numeros representan los decimales
-          App.totalToken = tokenWin
+          App.totalTokenPlayer = tokenWin
           // Autorizo a addressText a transferir la cantidad tokenWin
           App.approve(App.account, tokenWin)
 
@@ -154,11 +153,11 @@ App = {
           console.log("Token transferidos!", tokenWin)
         } else {
           console.log("Seguí participando...")
-          App.totalToken -= 1;
+          App.totalTokenPlayer -= 1;
           // Update View
-          $('#totalToken').text(App.totalToken)
+          $('#totalToken').text(App.totalTokenPlayer)
 
-          if(App.totalToken == 0){
+          if(App.totalTokenPlayer == 0){
             console.log("El juego se ha terminado!")
             
             window.location.href = "/endGame.html"
@@ -166,9 +165,9 @@ App = {
         }
       })
     
-    App.balanceOf(addressText).then(res => {
-      $("#totalTokenWallet").text(res)
-    })
+    // App.balanceOf(App.account).then(res => {
+    //   $("#totalTokenWallet").text(res)
+    // })
   },
 
   checkHitAndUpdateView: async () => {
