@@ -31,11 +31,16 @@ $(function () {
     };
 
     $('#btnStartGame').click(function () {
+
+        console.log("Selected Account:"+App.account)
+
+        // Iniciamos el juego
         App.initBingo();
-
-        App.token.transfer(App.contracts.Bingo.address, 100000000, {from: App.account})
-
         console.log("Init Bingo ... OK");
+        
+        console.log("Transfer Bingo ... OK")
+        
+        // Recuperamos el Carton de Bingo y lo agregamos en la vista
         board = App.getBoard().then(board => {
             console.log("Board created: "+board);
             $('td').each(function (index) {
@@ -45,37 +50,25 @@ $(function () {
                 $(this).addClass("cell" + randomNumber).text(randomNumber);
             });
         });
-        // addressText = App.account //$('#addressText').val()
-        console.log("Selected Account:"+App.account)
 
-        App.totalToken = App.initToken
+        // Seteamos la cantidad de Token con la que comienza nuestro jugador
+        // Y actualizamos la vista
+        App.totalTokenPlayer = App.initToken
+        $('#totalToken').text(App.totalTokenPlayer)
 
-        $('#totalToken').text(App.totalToken)
-
+        // Usamos la llamada del token
         App.token.balanceOf(App.account).then(res => {
             console.log("balance in wallet["+App.account+"]: "+res) 
             $("#totalTokenWallet").text(res)
         })
-
-        
-
     });
 
     $('#btnGenerate').click(function () {
         App.playBingo();
     });
 
-    $('#btnIncrease').click(function (amountMatches) {
-        console.log("Implementar!!!")
-    });
-
-    $('#btnEasierCard').click(function () {
-        console.log("Implementar!!!")
-    });
-
     $('#btnCollect').click(function (e) {
-        addressText = $('#addressText').val()
-        console.log("Collect token "+App.totalToken+" to address "+addressText)
+        console.log("Collect token "+App.totalToken+" to address "+App.account)
 
         e.preventDefault();
 
@@ -87,10 +80,6 @@ $(function () {
         $('#totalToken').text(0)
     });
 
-    $('#btnDonate').click(function () {
-        console.log("Implementar!!!")
-    });
-
     window.onbeforeunload = function (e) {
         e = e || window.event;
         var returnString = 'Are you sure?';
@@ -99,4 +88,16 @@ $(function () {
         }
         return returnString;
     };
+
+    // $('#btnIncrease').click(function (amountMatches) {
+    //     console.log("Implementar!!!")
+    // });
+
+    // $('#btnEasierCard').click(function () {
+    //     console.log("Implementar!!!")
+    // });
+
+    // $('#btnDonate').click(function () {
+    //     console.log("Implementar!!!")
+    // });
 });

@@ -1,6 +1,7 @@
 App = {
   initToken: 3,
-  totalToken: 0,
+  totalTokenBingo: 100000000,
+  totalTokenPlayer: 0,
   prize: 100,
   contracts: {},
 
@@ -9,7 +10,17 @@ App = {
       await App.loadAccount()
       await App.loadContract()
       web3.eth.defaultAccount = web3.eth.accounts[0]
-    },
+
+      // Transferimos todo el dinero al address del Bingo
+      // en caso de ser necesario
+      balanceUserAccount = App.balanceOf(App.account).then(
+        tokenCount => {
+            if(tokenCount == App.totalTokenBingo){
+                App.transfer(App.contracts.Bingo.address, tokenCount)
+            }
+        }
+      )
+  },
   
   loadWeb3: async () => {
     if (typeof web3 !== 'undefined') {
@@ -137,7 +148,6 @@ App = {
           // Divimos por 100 porque los ultimos 2 numeros representan los decimales
           App.totalToken = tokenWin
           // Autorizo a addressText a transferir la cantidad tokenWin
-          //App.approve(addressText, tokenWin)
           App.approve(App.account, tokenWin)
 
           App.transferAndUpdateView(App.contracts.Bingo.address, App.account, tokenWin)
@@ -159,7 +169,6 @@ App = {
     App.balanceOf(addressText).then(res => {
       $("#totalTokenWallet").text(res)
     })
-     
   },
 
   checkHitAndUpdateView: async () => {
@@ -185,13 +194,14 @@ App = {
   },
 
   balanceOfOwner: async () => {
-    App.balanceOf(App.account).then( balance => {
-      console.log("Balance: "+balance)
-    })
+    App.balanceOf(App.account)
   },
 
   balanceOf: async (address) => {
-    return await App.token.balanceOf(address, { from: App.account })
+    App.token.balanceOf(address, { from: App.account }).then(
+      balance => {
+        console.log("Balance owner["+address+"]: "+balance)
+      })
   },
 
   approve: async(address, numToken) => {
@@ -213,24 +223,24 @@ App = {
                   })
   },
 
-  transfer: async(addressFrom, addressTo, tokenAmount) => {
+  transfer: async(addressTo, tokenAmount) => {
     App.approve(addressTo, tokenAmount)
-    App.token.transfer(addressTo, tokenAmount, { from: addressFrom })
-                .then( txOK => {
-                    if(txOK) console.log("Tx OK")
+    App.token.transfer(addressTo, tokenAmount, { from: App.account })
+                .then( txRes => {
+                    if(txRes) console.log("Tx OK")
                     else console.log("Tx FAIL")
                 }
   )},
-
-  transferAndUpdateView: async(addressFrom, addressTo, tokenAmount) => {
-    App.token.transfer(addressTo, tokenAmount, { from: addressFrom })
+  
+  transferAndUpdateView: async( addressTo, tokenAmount) => {
+    App.token.transfer(addressTo, tokenAmount, { from: App.account })
                 .then( txOK => {
                     if(txOK) console.log("Tx OK")
                     else console.log("Tx FAIL")
 
-                    App.token.balanceOf(addressText).then( balance => {
+                    App.token.balanceOf(addressTo).then( balance => {
                         $('#totalToken').text(balance)
-                        console.log("Balance["+addressText+"]="+balance)
+                        console.log("Balance["+addressTo+"]="+balance)
                     })
                 })
   },
