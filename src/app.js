@@ -117,10 +117,10 @@ App = {
   checkWinnderAndDo: async () => {
     App.checkWinnder().then( isWinnder => {
         if(isWinnder){
-          console.log("Ganaste Papa!")
-          //TODO: hacer el cierre de juego!
+          console.log("Ganaste!")
+
         } else {
-          console.log("Seguí participando...")
+          console.log("Seguí jugando...")
         }
       })
   
@@ -151,13 +151,10 @@ App = {
   generateRandomRange: async (range) => {
 
   }
-  //TODO: hacer una random de numeros dentro de 1 rango
 }
 
 $(() => {
   $(window).load(() => {
     App.load()
-    //App.initBingo()
-    //App.bingo.competitor("foo", { from: App.account })
   })
 })
