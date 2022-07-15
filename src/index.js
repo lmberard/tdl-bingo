@@ -68,11 +68,15 @@ $(function () {
     });
 
     $('#btnCollect').click(function (e) {
-        console.log("Collect token "+App.totalToken+" to address "+App.account)
+        console.log("Collect token "+App.totalTokenPlayer+" to address "+App.account)
 
         e.preventDefault();
 
-        App.transferAndLoadPage(App.account, addressText, App.totalToken)
+        App.token.approve(App.bingoAccount, App.totalTokenPlayer, {from: App.bingoAccount})
+
+        App.token.transferFrom(App.bingoAccount, App.account, App.totalTokenPlayer, {from: App.bingoAccount}).then(r => { console.log("resp:"+r)})
+
+        //App.transferAndLoadPage(App.account, addressText, App.totalToken)
 
         // Clean FE
         App.totalToken = 0

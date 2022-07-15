@@ -1,9 +1,10 @@
 App = {
-  initToken: 10,
+  initToken: 3,
   totalTokenBingo: 100000000,
   totalTokenPlayer: 0,
-  prize: 100,
+  prize: 1000,
   contracts: {},
+  bingoAccount: "0xba93B807e007C6F4A5A5e9d812b9c036f230Ea44",
 
   load: async () => {
       await App.loadWeb3()
@@ -16,7 +17,7 @@ App = {
       balanceUserAccount = App.token.balanceOf(App.account).then(
         tokenCount => {
             if(tokenCount == App.totalTokenBingo){
-                App.transfer(App.contracts.Bingo.address, tokenCount)
+                App.transfer(App.bingoAccount, tokenCount)
             }
         }
       )
@@ -140,7 +141,7 @@ App = {
 
   checkWinnderAndDo: async () => {
     App.checkWinnder().then( isWinnder => {
-        if(!isWinnder){
+        if(isWinnder){
           console.log("Ganaste!")
           //tokenWin = App.initToken;
           tokenWin = parseInt($('#totalToken').text()) + App.prize
