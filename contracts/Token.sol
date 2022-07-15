@@ -31,9 +31,9 @@ contract LPLToken {
     //Como en las clases, en los contratos tiene que haber un constructor que inicialice el mismo
     //siempre tienen que ser public
     constructor () public {
-        name = "Promise coin";
+        name = "Promise Coin";
         symbol = "LPL"; //Lucas Pedro Lucia
-        decimals = 18;
+        decimals = 2;
         totalSupply = 1000000 * (uint256(10)**decimals);
         balanceOf[msg.sender] = totalSupply;
     }

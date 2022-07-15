@@ -1,4 +1,7 @@
 $(function () {
+    const priceNotMatch = 0.1, priceIncrease = 1, priceEasierCard = 10;
+    const rewardMatch = 0.4, rewardCompleteLine = 100, rewardBingo = 1000;
+
     var bingo = {
         selectedNumbers:[],
         generateRandom:function () {
@@ -26,30 +29,59 @@ $(function () {
             return random;
         }
     };
-    $('td').each(function () {
-        var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
-        var randomNumber = bingo.generateTableRandom().toString();
-        var numberString = parseInt(concatClass, 10).toString();
-        $(this).addClass("cell" + randomNumber).text(randomNumber);
+
+    $('#btnStartGame').click(function () {
+        App.initBingo();
+        console.log("Init Bingo ... OK");
+        board = App.getBoard().then(board => {
+            console.log("Board created: "+board);
+            $('td').each(function (index) {
+                var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
+                var randomNumber = board[index];
+                var numberString = parseInt(concatClass, 10).toString();
+                $(this).addClass("cell" + randomNumber).text(randomNumber);
+            });
+        });
+        addressText = $('#addressText').val()
+
+        App.totalToken = App.initToken
+
+        $('#totalToken').text(App.totalToken)
+
+        App.token.balanceOf(addressText).then(res => {
+            console.log("balance in wallet:"+res) 
+            $("#totalTokenWallet").text(res)
+        })
     });
-    var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
+
     $('#btnGenerate').click(function () {
         App.playBingo();
     });
+
     $('#btnIncrease').click(function (amountMatches) {
-        amountMatches++;
-        console.log("amount: "+amountMatches)
-        $('#amountMatches').text(amountMatches);
-    });
-    $('#btnEasierCard').click(function () {
-        
+        console.log("Implementar!!!")
     });
 
-    $('#btnCollect').click(function () {
-        
+    $('#btnEasierCard').click(function () {
+        console.log("Implementar!!!")
     });
+
+    $('#btnCollect').click(function (e) {
+        addressText = $('#addressText').val()
+        console.log("Collect token "+App.totalToken+" to address "+addressText)
+
+        e.preventDefault();
+
+        App.transferAndLoadPage(App.account, addressText, App.totalToken)
+
+        // Clean FE
+        App.totalToken = 0
+        $("#totalTokenWallet").text(0)
+        $('#totalToken').text(0)
+    });
+
     $('#btnDonate').click(function () {
-        
+        console.log("Implementar!!!")
     });
 
     window.onbeforeunload = function (e) {
