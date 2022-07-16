@@ -1,186 +1,43 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Bingo by Promise</title>
+        <title>TDL Solidity</title>
         <link rel="icon" href="images/icon.png" />
-        <header>
-            <image class="headerTitle" src="images/header.png"/>
-        </header>
+        <header> Testeando Solidity Dapp </header>
 		<!-- IMPORTS LIBRARY-->
         <script src="https://unpkg.com/@metamask/legacy-web3@latest/dist/metamask.web3.min.js"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.31/dist/truffle-contract.min.js"></script>
-        
+    
         <!-- OUR SCRIPTS -->
         <link rel="stylesheet" href="styles/styles.css"/>
         <script src="app.js"></script>
         <script type="text/javascript" src="index.js"></script>
     </head>
     <body>
-        <div class="container">
-            <div class="gameInfo">
-                <div class="results">
-                    <div class="infoTitle">Game Summary </div>
-                    <div class="gameSummary">
-                        You have to start the game by spinning the roulette to get a random number.
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Punishment for a non match:
-                        </div>
-                        <div class="column2Table">
-                            -$0.5
-                        </div>
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Reward for each match:
-                        </div>
-                        <div class="column2Table">
-                            $10
-                        </div>
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Reward for a complete line:
-                        </div>
-                        <div class="column2Table">
-                            $1500
-                        </div>
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Reward for the whole bingo:
-                        </div>
-                        <div class="column2Table">
-                            $200000
-                        </div>
-                    </div>
-                    <div class="gameSummary">
-                        In case you want to increase your chances:
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Price to increase chances:
-                        </div>
-                        <div class="column2Table">
-                            $100
-                        </div>
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Price for an easier card:
-                        </div>
-                        <div class="column2Table">
-                            $500
-                        </div>
-                    </div>
-                    
-                    <div class="infoTitle">History and results:</div>
-                    <div class="infoTable">
-                        <div class="rowTable">
-                            <div class="columnTable">
-                                My initial money:
-                            </div>
-                            <div class="column2Table">
-                                $1000
-                            </div>
-                        </div>
-                        
-                        <div class="rowTable">
-                            <div class="columnTable">
-                                Amount of matches:
-                            </div>
-                            <div class="column2Table" id="amountMatches">
-                            
-                            </div>
-                        </div>
-                        
-                        <div class="rowTable">
-                            <div class="columnTable">
-                                Amount of lost numbers:
-                            </div>
-                            <div class="column2Table" id="amountLostNumbers">
-                            
-                            </div>
-                        </div>                        
-                        <div class="rowTable">
-                            <div class="columnTable">
-                                Amount of easier card:
-                            </div>
-                            <div class="column2Table" id="amountEasierCards">
-                            
-                            </div>
-                        </div>
-                        <div class="rowTable">
-                            <div class="columnTable">
-                                Collected money:
-                            </div>
-                            <div class="column2Table" id="collectedMoney">
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <button class="buttonFn" id="btnCollect">Collect my Money</button>
-                    <button class="buttonFn" id="btnDonate">Donate</button>
-                    <button class="buttonFn" onclick="window.location.href='/endGame.html'">End game</button>
-                </div> 
-            </div>
-            <div class="game">
-                <image class="roulette" src="./images/roulette2.png">
-                <div>
-                    <button class="buttonFn" id="btnGenerate">Spin the roulette</button>
-                </div> 
-                <div class="bigNumberDisplay" id="bigNumberDisplay">?</div>
-                <div class="numbersTable">
-                    <table>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
-                <div>
-                    <button class="buttonFn" id="btnIncrease">Increase chances</button>
-                    <button class="buttonFn" id="btnEasierCard">I want an easier card</button>
-                </div>
-            </div>
-            
+        <div>
+            <h1> Probemos aleatoriedad en solidity </h1>
+        </div>  
+
+
+        <!-- NUESTRO TESTEO --> 
+        <div>
+            <button class="buttonFn" id="btnName">Nombre del participante?</button>
         </div>
+        <div class="nameParticipant" id="btcName"> </div>
+
+        <div>
+            <button class="buttonFn" id="btnGenerate">Apretar aca para generar la funcion</button>
+        </div>
+        <div class="bigNumberDisplay" id="bigNumberDisplayr"> </div>
+        <!-- FIN NUESTRO TESTEO -->
+        
         
         <footer>
             <div class="subject">Teoria de Lenguajes de Programacion</div>
             <div class="university">Facultad de Ingenieria</div>
             <div class="university">Universidad de Buenos Aires</div>
             <div class="team">Pedro Aguirre - Lucia Berard - Lucas Veron</div>
-            <div>
-                <a id="github" href="https://github.com/lmberard/tdl-bingo" target="_blank">Github Repository</a>
-            </div>
-            
-        </footer>
     </body>
 </html>

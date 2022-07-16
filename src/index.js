@@ -18,38 +18,11 @@ $(function () {
             }
             bingo.selectedNumbers.push(random);
             return random;
-        },
-        generateTableRandom:function () {
-            var min = 0;
-            var max = 20;
-            var random = Math.floor(Math.random() * (max - min + 1)) + min;
-            return random;
         }
     };
-    $('td').each(function () {
-        var concatClass = this.cellIndex + "" + this.parentNode.rowIndex;
-        var randomNumber = bingo.generateTableRandom().toString();
-        var numberString = parseInt(concatClass, 10).toString();
-        $(this).addClass("cell" + randomNumber).text(randomNumber);
-    });
-    var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
+    
     $('#btnGenerate').click(function () {
-        App.playBingo();
-    });
-    $('#btnIncrease').click(function (amountMatches) {
-        amountMatches++;
-        console.log("amount: "+amountMatches)
-        $('#amountMatches').text(amountMatches);
-    });
-    $('#btnEasierCard').click(function () {
-        
-    });
-
-    $('#btnCollect').click(function () {
-        
-    });
-    $('#btnDonate').click(function () {
-        
+        App.generateRandomNumber();
     });
 
     window.onbeforeunload = function (e) {
