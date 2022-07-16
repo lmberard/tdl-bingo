@@ -13,7 +13,6 @@ contract Lottery {
     constructor() public payable {
         owner = msg.sender;
         lastNumber = -1;
-        name = "Luli";
     }
 
     function getLastNumber() public view returns (int256) {
