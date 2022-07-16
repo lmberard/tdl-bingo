@@ -9,6 +9,7 @@
    ```
 
 3. Install [Ganache](https://trufflesuite.com/ganache/)
+   ![image](https://user-images.githubusercontent.com/50753891/179372138-7bab2951-141b-4dac-ae29-fac2d23e5e0e.png)
 
 4. Install [metamask chrome extension](https://metamask.io/)
 
@@ -18,6 +19,8 @@
    2. Copy the private key for any of the wallet addresses
    3. Import it in the Metamask extension as a new account
    4. Add a new network with the port that Ganache uses in the account you copied.
+   
+   ![image](https://user-images.githubusercontent.com/50753891/179372115-9a7db972-3d90-4098-a77f-055bc5fe7f90.png)
 
 In case something fails, check that you are using the same port in the `truffle-config.js`, `bs-config.json` and Ganache.
 
