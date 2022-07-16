@@ -17,14 +17,12 @@ contract Lottery {
     address private winner;
     uint256 private roundNumber;
     int256 private lastNumber;
-    bool private activeGame;
 
     // CONSTRUCTORS - GETTERS - SETTERS ------------------------
     constructor() public payable {
         owner = msg.sender;
         roundNumber = 0;
         lastNumber = -1;
-        activeGame = true;
     }
 
     function seeLastNumber() public view returns (int256) {
