@@ -7,7 +7,7 @@
 - Veron, Lucas
 
 ## Bingo game using Solidity, HTML & CSS
-![image](https://user-images.githubusercontent.com/50753891/176110802-7eca6520-7fb9-4ab3-b9cc-2bed5b10fdda.png)
+![image](https://user-images.githubusercontent.com/50753891/179371181-b97e37dd-a67d-42a0-b004-9481525e14a6.png)
 
 
 ## Compilacion y Deployment
