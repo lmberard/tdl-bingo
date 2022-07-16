@@ -36,7 +36,24 @@ App = {
 
 
   ////////////////////////////////
-  /* NUESTRA FUNCION PARA PROBAR */
+
+  changeName: async (name) => {
+    await App.bingo.setName(name, { from: App.account });
+    console.log('Se setio el nombre: ' + name)
+  },
+
+  getName: async () => {
+    var name = await App.bingo.getName({ from: App.account });
+    console.log("Se muestra: " + name);
+    $('#divName').text(name);
+  },
+
+  getAddress: async () => {
+    $('#divAddress').text(String(App.account));
+  },
+
+
+  ////////////////////////////////
   generateRandomNumber: async () => {
     const n = new Date().getTime() % 100
     const randomNumber = await App.bingo.generateRandom(n, 100)
@@ -44,12 +61,15 @@ App = {
     $('.bigNumberDisplay').text(randomNumber)
   },
 
-  // playBingo : async() => {
-  //   const n = new Date().getTime() % 100
-  //   const randomNumber = await App.bingo.generateRandom(n, 100)
-  //   $('.bigNumberDisplay').text(randomNumber)   
-  //   $('td.cell' + randomNumber).addClass('selected')
-  // },
+  seeLast: async () => {
+    const lastNumber = await App.bingo.getLastNumber({ from: App.account })
+    console.log("last number : "+ lastNumber.toString())
+    $('#divLastNumber').text('El anterior numero fue: ' + lastNumber.toString());
+  },
+
+
+
+
 }
 
 $(() => {

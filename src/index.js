@@ -1,36 +1,28 @@
 $(function () {
-    var bingo = {
-        selectedNumbers:[],
-        generateRandom:function () {
-            var min = 0;
-            var max = 20;
-            var random = Math.floor(Math.random() * (max - min + 1)) + min;
-            return random;
-        },
-        generateNextRandom:function () {
-            if (bingo.selectedNumbers.length > 20) {
-                alert("All numbers Exhausted");
-                return 0;
-            }
-            var random = bingo.generateRandom();
-            while ($.inArray(random, bingo.selectedNumbers) > -1) {
-                random = bingo.generateRandom();
-            }
-            bingo.selectedNumbers.push(random);
-            return random;
-        }
-    };
     
+    $('#btnSetName').click(function (name) {
+        var name = document.getElementById('inputName').value;
+        App.changeName(name);
+    });
+
+    $('#btnGetName').click(function () {
+        App.getName();
+    });
+
+    $('#btnGetAddress').click(function () {
+        console.log("Se mostro la address");
+        App.getAddress();
+    });
+
+
     $('#btnGenerate').click(function () {
+        console.log('Generating')
         App.generateRandomNumber();
     });
 
-    window.onbeforeunload = function (e) {
-        e = e || window.event;
-        var returnString = 'Are you sure?';
-        if (e) {
-            e.returnValue = returnString;
-        }
-        return returnString;
-    };
+    $('#btnGetLast').click(function () {
+        console.log('last number')
+        App.seeLast();
+    });
+
 });

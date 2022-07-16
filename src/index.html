@@ -16,21 +16,45 @@
         <script type="text/javascript" src="index.js"></script>
     </head>
     <body>
+         
+        <!-- NUESTRO TESTEO: Getters y setters  --> 
         <div>
-            <h1> Probemos aleatoriedad en solidity </h1>
-        </div>  
-
-
-        <!-- NUESTRO TESTEO --> 
-        <div>
-            <button class="buttonFn" id="btnName">Nombre del participante?</button>
+            <h1> Getters y setters </h1>
+        </div> 
+        
+        <div class="container">
+            <input id="inputName" type="text" placeholder="Ingrese su nombre..." >
+            <button class="buttonFn" id="btnSetName">setName</button>
         </div>
-        <div class="nameParticipant" id="btcName"> </div>
+
+        <div class="container">            
+            <button class="buttonFn" id="btnGetName">getName</button>
+            <div class="displayString" id="divName"></div>
+        </div>
+       
+
+        <div class="container">
+            <button class="buttonFn" id="btnGetAddress">getAddress</button>
+            <div class="displayString" id="divAddress"></div>
+        </div>
+               
+
+        <!-- NUESTRO TESTEO: Aleatoriedad  --> 
+        <div class="separator" ></div>
+        <div>
+            <h1> Aleatoriedad </h1>
+        </div> 
+        <div>
+            <button class="buttonFn" id="btnGenerate">Generar numero random</button>
+        </div>
+        <div class="bigNumberDisplay" id="bigNumberDisplay"> </div>
 
         <div>
-            <button class="buttonFn" id="btnGenerate">Apretar aca para generar la funcion</button>
+            <button class="buttonFn" id="btnGetLast">seeLastNumber</button>
         </div>
-        <div class="bigNumberDisplay" id="bigNumberDisplayr"> </div>
+        <div class="displayString" id="divLastNumber"></div>
+        
+
         <!-- FIN NUESTRO TESTEO -->
         
         
@@ -39,5 +63,6 @@
             <div class="university">Facultad de Ingenieria</div>
             <div class="university">Universidad de Buenos Aires</div>
             <div class="team">Pedro Aguirre - Lucia Berard - Lucas Veron</div>
+        </footer>
     </body>
 </html>
