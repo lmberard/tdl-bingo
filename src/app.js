@@ -56,6 +56,7 @@ App = {
     // Hydrate the smart contract with values from the blockchain
     App.bingo = await App.contracts.Bingo.deployed()
   },
+
   generateRandomNumber: async () => {
     //Llamada al contrato
     const n = new Date().getTime() % 100
@@ -68,7 +69,6 @@ App = {
   },
 
   playBingo : async() => {
-    
     // TODO: raro que isWinner regrese true siempre???
     board = App.makeMove().then( isWinner => {
       console.log(App.getBoard())
@@ -122,7 +122,6 @@ App = {
           console.log("Seguí participando...")
         }
       })
-  
   },
 
   checkHitAndUpdateView: async () => {
@@ -147,23 +146,12 @@ App = {
     })
   },
 
-  collectMoney: async () =>{
-    var collectedMoney = $('#collectedMoney').text()
-    console.log("pipo, esto estas probando capo: " + collectedMoney)
-    str = await App.bingo.collectMoney(collectedMoney, { from: App.account });
-    console.log("pipo, el owner es: "+str)
-  },
-  
   makeMove: async () => {
-    const randRange = 10;
+    const randRange = 100;
     const n = new Date().getTime() % randRange
     return await App.bingo.makeMove(n, randRange, { from: App.account })
   },
 
-  generateRandomRange: async (range) => {
-
-  }
-  //TODO: hacer una random de numeros dentro de 1 rango
 }
 
 $(() => {
