@@ -41,35 +41,34 @@ App = {
   },
 
   loadAccount: async () => {
-    // Set the current blockchain account
+    // Set account in use
     const accounts = await web3.eth.getAccounts();
     console.log("Account: "+accounts[0]);
     App.account = accounts[0];
   },
 
   loadContract: async () => {
-    // Create a JavaScript version of the smart contract
+    // Create version JS for Smart Contract using Truffle
     const bingo = await $.getJSON('Lottery.json')
     App.contracts.Bingo = TruffleContract(bingo)
     App.contracts.Bingo.setProvider(App.web3Provider)
 
-    // Hydrate the smart contract with values from the blockchain
+    // Deploy Smart Contract in a blockchain
     App.bingo = await App.contracts.Bingo.deployed()
   },
   generateRandomNumber: async () => {
-    //Llamada al contrato
+    //Call for smart contract for generate random numbers
     const n = new Date().getTime() % 100
     const randomNumber = await App.bingo.generateRandom(n, 100)
     console.log("random number: "+ randomNumber.toString())
 
+    // Update view
     $('.bigNumberDisplay').text(randomNumber)
     $('td.cell' + randomNumber).addClass('selected')
     return randomNumber
   },
 
   playBingo : async() => {
-    
-    // TODO: raro que isWinnder regrese true siempre???
     board = App.makeMove().then( isWinnder => {
 
       console.log("makeMove response: "+isWinnder)

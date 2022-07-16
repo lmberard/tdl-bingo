@@ -43,29 +43,26 @@ $(function () {
             });
         });        
     });
-    // TODO: lo dejamos o lo sacamos?
+
     var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
     $('#btnGenerate').click(function () {
-        //$( "#containerGameID" ).show("slow");
-        //$( "#containerGameID" ).css({'style':'display: block'})
         App.playBingo();
-        
+    });
 
-    });
     $('#btnIncrease').click(function (amountMatches) {
-        // amountMatches++;
-        // console.log("amount: "+amountMatches)
-        // $('#amountMatches').text(amountMatches);
+        console.log("Yet not implemented")
     });
+
     $('#btnEasierCard').click(function () {
-        
+        console.log("Yet not implemented")
     });
 
     $('#btnCollect').click(function () {
-        
+        console.log("Yet not implemented")
     });
+    
     $('#btnDonate').click(function () {
-        
+        console.log("Yet not implemented")
     });
 
     window.onbeforeunload = function (e) {
