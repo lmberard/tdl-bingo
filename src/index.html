@@ -18,115 +18,23 @@
         <script type="text/javascript" src="index.js"></script>
     </head>
     <body>
-        <div class="container">
-            <div class="gameInfo">
+        <div class="containerInfo">
+            <div class="summaryInfo">
                 <div class="results">
-                    <div class="infoTitle">Game Summary </div>
                     <div class="gameSummary">
-                        You have to start the game by spinning the roulette to get a random number.
+                        You have to start the game by spinning the roulette to get a random number. 
+                        You have to pay for each time you spin the roulette to get a random number.
+                        You win money in our Token every time you have a match
                     </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Punishment for a non match:
-                        </div>
-                        <div class="column2Table">
-                            -$0.5
-                        </div>
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Reward for each match:
-                        </div>
-                        <div class="column2Table">
-                            $10
-                        </div>
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Reward for a complete line:
-                        </div>
-                        <div class="column2Table">
-                            $1500
-                        </div>
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Reward for the whole bingo:
-                        </div>
-                        <div class="column2Table">
-                            $200000
-                        </div>
-                    </div>
-                    <div class="gameSummary">
-                        In case you want to increase your chances:
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Price to increase chances:
-                        </div>
-                        <div class="column2Table">
-                            $100
-                        </div>
-                    </div>
-                    <div class="rowTable">
-                        <div class="columnTable">
-                            Price for an easier card:
-                        </div>
-                        <div class="column2Table">
-                            $500
-                        </div>
+
+                    <div>
+                        <button class="buttonStart" id="btnStartGame">Click here to start the game</button>
                     </div>
                     
-                    <div class="infoTitle">History and results:</div>
-                    <div class="infoTable">
-                        <div class="rowTable">
-                            <div class="columnTable">
-                                My initial money:
-                            </div>
-                            <div class="column2Table">
-                                $1000
-                            </div>
-                        </div>
-                        
-                        <div class="rowTable">
-                            <div class="columnTable">
-                                Amount of matches:
-                            </div>
-                            <div class="column2Table" id="amountMatches">
-                            
-                            </div>
-                        </div>
-                        
-                        <div class="rowTable">
-                            <div class="columnTable">
-                                Amount of lost numbers:
-                            </div>
-                            <div class="column2Table" id="amountLostNumbers">
-                            
-                            </div>
-                        </div>                        
-                        <div class="rowTable">
-                            <div class="columnTable">
-                                Amount of easier card:
-                            </div>
-                            <div class="column2Table" id="amountEasierCards">
-                            
-                            </div>
-                        </div>
-                        <div class="rowTable">
-                            <div class="columnTable">
-                                Collected money:
-                            </div>
-                            <div class="column2Table" id="collectedMoney">
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <button class="buttonFn" id="btnCollect">Collect my Money</button>
-                    <button class="buttonFn" id="btnDonate">Donate</button>
-                    <button class="buttonFn" onclick="window.location.href='/endGame.html'">End game</button>
-                </div> 
+                </div>
             </div>
+
+        <div id="containerGameID" class="containerGame">
             <div class="game">
                 <image class="roulette" src="./images/roulette2.png">
                 <div>
@@ -164,10 +72,45 @@
                         </tr>
                     </table>
                 </div>
-                <div>
-                    <button class="buttonFn" id="btnIncrease">Increase chances</button>
-                    <button class="buttonFn" id="btnEasierCard">I want an easier card</button>
-                </div>
+            </div>
+            <div class="gameInfo">
+                <div class="results">                   
+                    <div class="infoTitle">History and results:</div>
+                    <div class="infoTable">
+                        <div class="rowTable">
+                            <div class="columnTable">
+                                Total token:
+                            </div>
+                            <div class="column2Table" id="totalToken">0
+                            </div>
+                        </div>
+                        <div class="rowTable">
+                            <div class="columnTable">
+                                Amount of matches:
+                            </div>
+                            <div class="column2Table" id="amountMatches">0
+                            </div>
+                        </div>
+                        <div class="rowTable">
+                            <div class="columnTable">
+                                Amount of lost numbers:
+                            </div>
+                            <div class="column2Table" id="amountLostNumbers">0
+                            </div>
+                        </div> 
+                        <div class="rowTable">
+                            <div class="columnTable">
+                                Total token in my wallet:
+                            </div>
+                            <div class="column2Table" id="totalTokenWallet">0
+                            </div>
+                        </div>
+                    </div>
+                    <input  type="text" id="addressText" placeholder="Put your wallet addres where you want to collect your earnings">
+                    <button class="buttonFn" id="btnCollect">Collect my Money</button>
+                    <button class="buttonFn" id="btnDonate">Donate it to Promise Team</button>
+                    <button class="buttonFn" onclick="window.location.href='/endGame.html'">End game</button>
+                </div> 
             </div>
             
         </div>

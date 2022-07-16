@@ -22,9 +22,64 @@ div {
   text-align: center;
 }
 
+.title {
+  font-size: 50px;
+  text-shadow: 4px 4px 4px #413f3f8c;
+}
+
+input {
+  width: 100%;
+  height: 60px;
+}
+
+input::placeholder {
+  font-size: 20px;
+  overflow-wrap: break-word;
+  text-shadow: 0px;
+  font-style: italic;
+}
+
 /************************************************************/
 /* ------------------------ BUTTONS ----------------------- */
 /************************************************************/
+.buttonStart {
+  background: rgb(196, 216, 253);
+  border-radius: 16px;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 30px;
+  height: 120px;
+  outline: 0;
+  overflow-wrap: break-word;
+  padding: 0 11px;
+  text-align: center;
+  text-shadow: 8px 8px 8px #0f20468c;
+  margin-top: 20px;
+  width: 30%;
+  min-height: 60px;
+}
+
+
+.buttonStart:active {
+  border-bottom-color: #a2a6ac;
+}
+
+.buttonStart:active:hover {
+  border-bottom-color: #a2a6ac;
+}
+
+.buttonStart:hover {
+  border-color: #a2a6ac #979aa1 #82858a;
+  box-shadow: rgba(173, 180, 196, 0.5) 0 0 30px 2px;
+}
+
+.buttonStart:focus {
+  border-color: #548bac;
+  box-shadow: rgba(173, 180, 196, 0.5) 0 0 30px 2px;
+  outline: 0;
+}
+
 .buttonFn {
   background: rgb(196, 216, 253);
   border-radius: 16px;
@@ -43,6 +98,9 @@ div {
   min-height: 60px;
 }
 
+.buttonFn #btnStartGame {
+  width: 120px;
+}
 .buttonFn:active {
   border-bottom-color: #a2a6ac;
 }
@@ -111,10 +169,16 @@ footer {
 /************************************************************/
 /* ------------------------ GAME -------------------------- */
 /************************************************************/
-.container {
+.containerGame {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+} 
+
+.gameSummary {
+  font-size: 22px;
+  text-shadow: 4px 4px 4px #413f3f8c;
+  padding: 20px 10% 20px 10%;
 }
 /* -------------------------------------------------------- */
 .roulette {
@@ -170,6 +234,14 @@ td.selected {
 /************************************************************/
 /* ---------------------- GAME INFO ----------------------- */
 /************************************************************/
+.summaryInfo {
+  text-align: center;
+  vertical-align: middle;
+
+  padding-bottom: 40px;
+  box-shadow: rgba(11, 78, 78, 0.5) 0 10px 6px;
+  margin-bottom: 60px;
+}
 .gameInfo {
   text-align: center;
   vertical-align: middle;
@@ -187,15 +259,16 @@ td.selected {
 .rowTable {
   margin-bottom: 30px;
   border-bottom: 1px solid;
-  color: rgb(141, 137, 137);
 }
 .columnTable {
+  color: rgb(185, 184, 184);
   text-align: left;
-  font-size: 20px;
+  font-size: 30px;
 }
 .column2Table {
+  color: rgb(233, 231, 231);
   text-align: right;
-  font-size: 20px;
+  font-size: 40px;
 }
 
 /*----------------------------------------------------------------*/
