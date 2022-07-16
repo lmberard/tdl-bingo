@@ -69,9 +69,9 @@ App = {
   },
 
   playBingo : async() => {
-    board = App.makeMove().then( isWinnder => {
+    board = App.makeMove().then( isWinner => {
 
-      console.log("makeMove response: "+isWinnder)
+      console.log("makeMove response: " + isWinner)
 
       // See last number & update FE
       App.seeLastNumberAndUpdateView()
@@ -79,8 +79,8 @@ App = {
       // Check if was Hit & update FE amount matches
       App.checkHitAndUpdateView()
 
-      // Check winnder & do something
-      App.checkWinnderAndDo()
+      // Check winner & do something
+      App.checkWinnerAndDo()
     })
   },
 
@@ -100,8 +100,8 @@ App = {
     return await App.bingo.amountHits()
   },
 
-  checkWinnder: async () => {
-    return await App.bingo.checkWinnder()
+  checkWinner: async () => {
+    return await App.bingo.checkWinner()
   },
 
   seeLastNumberAndUpdateView: async () => {
@@ -113,9 +113,9 @@ App = {
     }).catch( () => { console.log("Error en seeLastNumber!")})
   },
 
-  checkWinnderAndDo: async () => {
-    App.checkWinnder().then( isWinnder => {
-        if(isWinnder){
+  checkWinnerAndDo: async () => {
+    App.checkWinner().then( isWinner => {
+        if(isWinner){
           console.log("Ganaste!")
 
         } else {
@@ -142,14 +142,10 @@ App = {
   },
   
   makeMove: async () => {
-    const randRange = 10;
+    const randRange = 100;
     const n = new Date().getTime() % randRange
     return await App.bingo.makeMove(n, randRange, { from: App.account })
   },
-
-  generateRandomRange: async (range) => {
-
-  }
 }
 
 $(() => {
