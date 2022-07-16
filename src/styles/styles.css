@@ -27,6 +27,18 @@ div {
   text-shadow: 4px 4px 4px #413f3f8c;
 }
 
+input {
+  width: 100%;
+  height: 60px;
+}
+
+input::placeholder {
+  font-size: 20px;
+  overflow-wrap: break-word;
+  text-shadow: 0px;
+  font-style: italic;
+}
+
 /************************************************************/
 /* ------------------------ BUTTONS ----------------------- */
 /************************************************************/
@@ -47,6 +59,7 @@ div {
   width: 30%;
   min-height: 60px;
 }
+
 
 .buttonStart:active {
   border-bottom-color: #a2a6ac;
@@ -156,56 +169,11 @@ footer {
 /************************************************************/
 /* ------------------------ GAME -------------------------- */
 /************************************************************/
-.containerPrices {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding-bottom: 40px;
-}
-
-.PricessInfo {
-  font-size: 14px;
-  text-shadow: 4px 4px 4px #413f3f8c;
-}
-.containerPricesTotal {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.PricesValue {
-  margin: 0 20px 0 20px;
-  background-color: rgb(252, 101, 101);
-  padding: 10px;
-  height: 160px;
-  width: 160px;
-  border-radius: 160px;
-  border: none;
-  color: white;
-  font-size: 30px;
-  text-shadow: 0 0 3px #ff0000, 0 0 5px #0000ff;
-  box-shadow: inset 0 0 0 10px rgb(248, 188, 203);
-}
-
-.RewardValue {
-  background-color: rgb(16, 133, 22);
-  margin: 0 20px 0 20px;
-  padding: 10px;
-  height: 160px;
-  width: 160px;
-  border-radius: 160px;
-  border: none;
-  color: white;
-  font-size: 30px;
-  text-shadow: 0 0 3px #036308, 0 0 5px #0000ff;
-  box-shadow: inset 0 0 0 10px lightGreen;
-}
-
 .containerGame {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-}
+} 
 
 .gameSummary {
   font-size: 22px;
