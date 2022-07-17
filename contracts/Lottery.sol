@@ -4,8 +4,8 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery {
     // ATRIBUTES -----------------------------------------------
-    uint256 constant NUMBERS_PER_BOARD = 21; // 21;
-    uint256 constant RAND_INIT_BINGO = 10;
+    uint256 constant NUMBERS_PER_BOARD = 21;
+    uint256 constant RAND_INIT_BINGO = 100;
     struct Participant {
         string name;
         uint256[NUMBERS_PER_BOARD] board;
@@ -17,14 +17,12 @@ contract Lottery {
     address private winner;
     uint256 private roundNumber;
     int256 private lastNumber;
-    bool private activeGame;
 
     // CONSTRUCTORS - GETTERS - SETTERS ------------------------
     constructor() public payable {
         owner = msg.sender;
         roundNumber = 0;
         lastNumber = -1;
-        activeGame = true;
     }
 
     function seeLastNumber() public view returns (int256) {
@@ -35,7 +33,6 @@ contract Lottery {
         return lastNumber == int256(_num);
     }
 
-    // TODO move to Library
     function rand(uint256 n, uint256 range) private view returns (uint256) {
         return
             uint256(
@@ -60,9 +57,6 @@ contract Lottery {
 
     function checkWinner() public view returns (bool) {
         return player.amountHits == NUMBERS_PER_BOARD;
-        // if (player.amountHits == NUMBERS_PER_BOARD)
-        //     return true;
-        // return false;
     }
 
     function addHit(int256 _outNumber) private {
@@ -116,21 +110,14 @@ contract Lottery {
         return player.board;
     }
 
-    function generateRandom(uint256 _n, uint256 _range)
-        public
-        view
-        returns (uint256)
-    {
+    function generateRandom(uint256 _n, uint256 _range) public view returns (uint256){
         return uint256(rand(_n, _range));
     }
 
     function makeMove(uint256 _n, uint256 _range) public returns (bool) {
         lastNumber = int256(rand(_n, _range));
-
         increaseRound();
-
         addHit(lastNumber);
-
         return checkWinner();
     }
 

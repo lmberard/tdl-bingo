@@ -1,5 +1,5 @@
 $(function () {
-    
+
     $('#btnStartGame').click(function () {
         App.initBingo();
         console.log("Init Bingo ... OK");
@@ -11,7 +11,7 @@ $(function () {
             });
         });        
     });
-    
+
     $('#btnGenerate').click(function () {
         App.playBingo();
     });
