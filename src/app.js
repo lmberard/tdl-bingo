@@ -56,6 +56,7 @@ App = {
     // Deploy Smart Contract in a blockchain
     App.bingo = await App.contracts.Bingo.deployed()
   },
+
   generateRandomNumber: async () => {
     //Call for smart contract for generate random numbers
     const n = new Date().getTime() % 100
@@ -117,21 +118,25 @@ App = {
     App.checkWinner().then( isWinner => {
         if(isWinner){
           console.log("Ganaste!")
-
         } else {
           console.log("Seguí jugando...")
         }
       })
-  
   },
 
   checkHitAndUpdateView: async () => {
     await App.bingo.wasHit({ from: App.account }).then( wasHit => {
       if(wasHit){
-        amountMatches = $('#amountMatches').text()
-        console.log("Was Hit!, matches: "+amountMatches)
+        var amountMatches = $('#amountMatches').text()
+        amountMatches = parseInt(amountMatches) + 1
 
-        $('#amountMatches').text(parseInt(amountMatches)+1)
+        var collectedMoney = 1 * parseInt(amountMatches) //1 eth per match
+
+        console.log("Was Hit!, matches: " + amountMatches)
+        $('#amountMatches').text(parseInt(amountMatches))
+
+        console.log(collectedMoney)
+        $('#collectedMoney').text(collectedMoney)
       } else {
         amountLoseMatches = $('#amountLostNumbers').text()
         console.log("Wasn't Hit :-(, lose matches: "+amountLoseMatches)
@@ -140,7 +145,7 @@ App = {
       }
     })
   },
-  
+
   makeMove: async () => {
     const randRange = 100;
     const n = new Date().getTime() % randRange

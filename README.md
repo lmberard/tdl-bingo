@@ -1,23 +1,10 @@
-# Teoria de Lenguajes de Programacion - Solidity
+# Principio del juego
 
-## Integrantes
+1. Seteo del juego
+2. Crear tablero
+3. Generar numero aleatorio
+  ![image](https://user-images.githubusercontent.com/50753891/179373398-1dbb09e7-987f-4eed-bc79-4ef5ca5c0368.png)
 
-- Aguirre, Pedro
-- Berard, Lucia
-- Veron, Lucas
+4. Verificar si matchea con los numeros del tablero
+  ![image](https://user-images.githubusercontent.com/50753891/179373396-280e4cf0-b3fd-44f4-9b0b-948c57129be6.png)
 
-## Bingo game using Solidity, HTML & CSS
-![image](https://user-images.githubusercontent.com/50753891/176110802-7eca6520-7fb9-4ab3-b9cc-2bed5b10fdda.png)
-
-
-## Compilacion y Deployment
-
-Para compilar y ejecutar la aplicacion, seguir los pasos del siguiente [instructivo](https://github.com/lmberard/tdl-bingo/blob/main/CONTRIBUTING.md)
-
-## Informacion sobre el proyecto y sobre solidity
-
-Para mas informacion sobre el desarrollo e implementacion del proyecto: [documento](https://github.com/lmberard/tdl-bingo/blob/main/SOLIDITY.md)
-
-## Informacion sobre smart contracts
-
-Para mas informacion sobre smart contracts y blockchain: [documento](https://github.com/lmberard/tdl-bingo/blob/main/SMART_CONTRACTS.md)

@@ -13,7 +13,7 @@ contract Lottery {
         uint256 amountHits;
     }
     Participant player;
-    address private owner;
+    address private owner; //esta es la wallet del jugador
     address private winner;
     uint256 private roundNumber;
     int256 private lastNumber;
@@ -43,7 +43,15 @@ contract Lottery {
     }
 
     // GAME LOGIC ----------------------------------------------
-    function amountHits() public view returns(uint256) {
+    function collectMoney(uint256 collectedMoney)
+        public
+        view
+        returns (address)
+    {
+        return owner;
+    }
+
+    function amountHits() public view returns (uint256) {
         return player.amountHits;
     }
 
@@ -57,7 +65,7 @@ contract Lottery {
                 player.amountHits++;
                 break;
             }
-        }    
+        }
     }
 
     function wasHit() public view returns (bool) {
@@ -79,9 +87,12 @@ contract Lottery {
         uint256[NUMBERS_PER_BOARD] memory acs;
         uint256 rangeRand = RAND_INIT_BINGO;
 
-        if(bytes(player.name).length == 0){
+        if (bytes(player.name).length == 0) {
             for (uint256 i = 0; i < NUMBERS_PER_BOARD; i++) {
-                rands[i] = rand((bytes(_name).length + i) % rangeRand, rangeRand);
+                rands[i] = rand(
+                    (bytes(_name).length + i) % rangeRand,
+                    rangeRand
+                );
                 acs[i] = 0;
             }
             player.name = _name;
@@ -91,7 +102,11 @@ contract Lottery {
         }
     }
 
-    function getBoard() public view returns (uint256[NUMBERS_PER_BOARD] memory){
+    function getBoard()
+        public
+        view
+        returns (uint256[NUMBERS_PER_BOARD] memory)
+    {
         return player.board;
     }
 
@@ -106,12 +121,16 @@ contract Lottery {
         return checkWinner();
     }
 
-    function sort_array(uint[NUMBERS_PER_BOARD] memory arr) private pure returns (uint[NUMBERS_PER_BOARD] memory) {
-        uint l = arr.length;
-        for(uint i = 0; i < l; i++) {
-            for(uint j = i+1; j < l ;j++) {
-                if(arr[i] > arr[j]) {
-                    uint temp = arr[i];
+    function sort_array(uint256[NUMBERS_PER_BOARD] memory arr)
+        private
+        pure
+        returns (uint256[NUMBERS_PER_BOARD] memory)
+    {
+        uint256 l = arr.length;
+        for (uint256 i = 0; i < l; i++) {
+            for (uint256 j = i + 1; j < l; j++) {
+                if (arr[i] > arr[j]) {
+                    uint256 temp = arr[i];
                     arr[i] = arr[j];
                     arr[j] = temp;
                 }

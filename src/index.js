@@ -1,6 +1,4 @@
 $(function () {
-    const priceNotMatch = 0.1, priceIncrease = 1, priceEasierCard = 10;
-    const rewardMatch = 0.4, rewardCompleteLine = 100, rewardBingo = 1000;
 
     $('#btnStartGame').click(function () {
         App.initBingo();
@@ -14,26 +12,14 @@ $(function () {
         });        
     });
 
-    var amountMatches = 0,amountLostNumbers = 0; amountEasierCards = 0;
     $('#btnGenerate').click(function () {
         App.playBingo();
     });
 
-    $('#btnIncrease').click(function (amountMatches) {
-        console.log("Yet not implemented")
-    });
-
-    $('#btnEasierCard').click(function () {
-        console.log("Yet not implemented")
-    });
-
     $('#btnCollect').click(function () {
-        console.log("Yet not implemented")
+        App.collectMoney();
     });
     
-    $('#btnDonate').click(function () {
-        console.log("Yet not implemented")
-    });
 
     window.onbeforeunload = function (e) {
         e = e || window.event;
