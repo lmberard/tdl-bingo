@@ -1,5 +1,5 @@
 App = {
-  initToken: 3,
+  initToken: 10,
   totalToken: 0,
   contracts: {},
 

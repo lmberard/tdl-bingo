@@ -26,7 +26,8 @@
                         You have to pay for each time you spin the roulette to get a random number.
                         You win money in our Token every time you have a match
                     </div>
-
+                    
+                    <input  type="text" id="addressText" placeholder="Put your wallet addres where you want to collect your earnings">
                     <div>
                         <button class="buttonStart" id="btnStartGame">Click here to start the game</button>
                     </div>
@@ -37,6 +38,7 @@
         <div id="containerGameID" class="containerGame">
             <div class="game">
                 <image class="roulette" src="./images/roulette2.png">
+
                 <div>
                     <button class="buttonFn" id="btnGenerate">Spin the roulette</button>
                 </div> 
@@ -106,7 +108,6 @@
                             </div>
                         </div>
                     </div>
-                    <input  type="text" id="addressText" placeholder="Put your wallet addres where you want to collect your earnings">
                     <button class="buttonFn" id="btnCollect">Collect my Money</button>
                     <button class="buttonFn" id="btnDonate">Donate it to Promise Team</button>
                     <button class="buttonFn" onclick="window.location.href='/endGame.html'">End game</button>

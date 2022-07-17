@@ -4,7 +4,7 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery {
     // ATRIBUTES -----------------------------------------------
-    uint256 constant NUMBERS_PER_BOARD = 21;// 1;
+    uint256 constant NUMBERS_PER_BOARD = 21; // 1;
     uint256 constant RAND_INIT_BINGO = 100;
     struct Participant {
         string name;
@@ -46,11 +46,11 @@ contract Lottery {
     }
 
     // GAME LOGIC ----------------------------------------------
-    function amountHits() public view returns(uint256) {
+    function amountHits() public view returns (uint256) {
         return player.amountHits;
     }
 
-    function checkWinnder() public view returns (bool) {
+    function checkWinner() public view returns (bool) {
         return player.amountHits == NUMBERS_PER_BOARD;
         // if (player.amountHits == NUMBERS_PER_BOARD)
         //     return true;
@@ -63,7 +63,7 @@ contract Lottery {
                 player.amountHits++;
                 break;
             }
-        }    
+        }
     }
 
     function wasHit() public view returns (bool) {
@@ -85,9 +85,12 @@ contract Lottery {
         uint256[NUMBERS_PER_BOARD] memory acs;
         uint256 rangeRand = RAND_INIT_BINGO;
 
-        if(bytes(player.name).length == 0){
+        if (bytes(player.name).length == 0) {
             for (uint256 i = 0; i < NUMBERS_PER_BOARD; i++) {
-                rands[i] = rand((bytes(_name).length + i) % rangeRand, rangeRand);
+                rands[i] = rand(
+                    (bytes(_name).length + i) % rangeRand,
+                    rangeRand
+                );
                 acs[i] = 0;
             }
             player.name = _name;
@@ -97,7 +100,11 @@ contract Lottery {
         }
     }
 
-    function getBoard() public view returns (uint256[NUMBERS_PER_BOARD] memory){
+    function getBoard()
+        public
+        view
+        returns (uint256[NUMBERS_PER_BOARD] memory)
+    {
         return player.board;
     }
 
@@ -116,15 +123,19 @@ contract Lottery {
 
         addHit(lastNumber);
 
-        return checkWinnder();
+        return checkWinner();
     }
 
-    function sort_array(uint[NUMBERS_PER_BOARD] memory arr) private pure returns (uint[NUMBERS_PER_BOARD] memory) {
-        uint l = arr.length;
-        for(uint i = 0; i < l; i++) {
-            for(uint j = i+1; j < l ;j++) {
-                if(arr[i] > arr[j]) {
-                    uint temp = arr[i];
+    function sort_array(uint256[NUMBERS_PER_BOARD] memory arr)
+        private
+        pure
+        returns (uint256[NUMBERS_PER_BOARD] memory)
+    {
+        uint256 l = arr.length;
+        for (uint256 i = 0; i < l; i++) {
+            for (uint256 j = i + 1; j < l; j++) {
+                if (arr[i] > arr[j]) {
+                    uint256 temp = arr[i];
                     arr[i] = arr[j];
                     arr[j] = temp;
                 }
