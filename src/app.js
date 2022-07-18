@@ -1,6 +1,10 @@
 App = {
+  // Config params
+  randRange: 100,
+  matchTokenWin: 5,
   initToken: 10,
   totalToken: 0,
+  addressPromiseTeam: "0x4da5D2f47ed9F93FF317e689a4b1eda25D2e1352",
   contracts: {},
 
   load: async () => {
@@ -44,9 +48,9 @@ App = {
 
   loadAccount: async () => {
     // Set the current blockchain account
-    const accounts = await web3.eth.getAccounts();
-    console.log("Account: "+accounts[0]);
-    App.account = accounts[0];
+    const accounts = await web3.eth.getAccounts()
+    console.log("Account: "+accounts[0])
+    App.account = accounts[0]
   },
 
   loadContract: async () => {
@@ -76,7 +80,6 @@ App = {
 
   playBingo : async() => {
     
-    // TODO: por que isWinner regresa true siempre??? It's OK?
     board = App.makeMove().then( isWinner => {
 
       console.log("makeMove response: "+isWinner)
@@ -85,10 +88,11 @@ App = {
       App.seeLastNumberAndUpdateView()
 
       // Check if was Hit & update FE amount matches
-      App.checkHitAndUpdateView()
-
-      // Check Winner & do something
-      App.checkWinnerAndDo()
+      App.checkHitAndUpdateView().then( wasHit => {
+        // Check Winner & do something
+        App.checkWinnerAndDo(wasHit)
+      })
+      
     })
   },
 
@@ -112,6 +116,10 @@ App = {
     return await App.bingo.checkWinner()
   },
 
+  wasHit: async () => {
+    return await App.bingo.wasHit()
+  },
+
   seeLastNumberAndUpdateView: async () => {
     App.seeLastNumber().then( randomNumber => {
       console.log("Random number: "+randomNumber)
@@ -121,19 +129,21 @@ App = {
     }).catch( () => { console.log("Error en seeLastNumber!")})
   },
 
-  checkWinnerAndDo: async () => {
+  checkWinnerAndDo: async (wasHit) => {
     addressText = $('#addressText').val()
     App.checkWinner().then( isWinner => {
         if(isWinner){
           console.log("Ganaste!")
-          tokenWin = 1000;
-          App.totalToken = tokenWin/100;
+          tokenWin = 1000
+          App.totalToken = tokenWin/100
           App.approve(addressText, tokenWin)
           App.transferAndUpdateView(App.account, addressText, tokenWin)
           console.log("Token transferidos!", tokenWin)
         } else {
-          console.log("Seguí participando...")
-          App.totalToken -= 1;
+          if(!wasHit){
+            console.log("Seguí participando...")
+            App.totalToken -= 1
+          }
 
           $('#totalToken').text(App.totalToken)
 
@@ -151,23 +161,29 @@ App = {
   },
 
   checkHitAndUpdateView: async () => {
-    await App.bingo.wasHit({ from: App.account }).then( wasHit => {
+    wasHit = await App.bingo.wasHit({ from: App.account }).then( wasHit => {
       if(wasHit){
         amountMatches = $('#amountMatches').text()
-        console.log("Was Hit!, matches: "+amountMatches)
+        console.log("Was Hit!, matches: "+ (parseInt(amountMatches) + 1).toString()
+          + " wins "+App.matchTokenWin+" tokens")
 
         $('#amountMatches').text(parseInt(amountMatches)+1)
+        App.totalToken += App.matchTokenWin
       } else {
-        amountLoseMatches = $('#amountLostNumbers').text()
-        console.log("Wasn't Hit :-(, lose matches: "+amountLoseMatches)
+        amountLoseMatchesNext = parseInt($('#amountLostNumbers').text())+1
+        
+        console.log("Wasn't Hit :-(, lose matches: "+amountLoseMatchesNext.toString())
 
-        $('#amountLostNumbers').text(parseInt(amountLoseMatches)+1)
+        $('#amountLostNumbers').text(amountLoseMatchesNext)
       }
+      return wasHit
     })
+    console.log("was hits: "+wasHit)
+    return wasHit
   },
   
   makeMove: async () => {
-    const randRange = 100;
+    const randRange = App.randRange;
     const n = new Date().getTime() % randRange
     return await App.bingo.makeMove(n, randRange, { from: App.account })
   },
@@ -225,7 +241,7 @@ App = {
 
   transferFromAndUpdateView: async(fromAddress, toAddress, numToken) =>{
     console.log("fromAddress: "+fromAddress+",toAddress: "+toAddress+",numToken: "+numToken)
-    //App.approve(toAddress, numToken, {from: fromAddress});
+
     App.token.transferFrom(fromAddress, toAddress, numToken, { from: App.account })
       .then( txOK => {
         if(txOK) console.log("Tx OK")

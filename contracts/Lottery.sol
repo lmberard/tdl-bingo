@@ -40,7 +40,8 @@ contract Lottery {
         return
             uint256(
                 keccak256(
-                    abi.encode(block.timestamp + n, msg.sender, lastNumber)
+                    //abi.encode(block.timestamp + n, msg.sender, lastNumber)
+                    abi.encode(block.timestamp + n, block.difficulty, player.amountHits)
                 )
             ) % range;
     }
@@ -52,9 +53,6 @@ contract Lottery {
 
     function checkWinner() public view returns (bool) {
         return player.amountHits == NUMBERS_PER_BOARD;
-        // if (player.amountHits == NUMBERS_PER_BOARD)
-        //     return true;
-        // return false;
     }
 
     function addHit(int256 _outNumber) private {

@@ -38,6 +38,8 @@ $(function () {
         App.totalToken = 0
         $("#totalTokenWallet").text(0)
         $('#totalToken').text(0)
+        $('#amountMatches').text(0)
+        $('#amountLostNumbers').text(0)
     }
 
     $('#btnCollect').click(function () {
@@ -50,7 +52,7 @@ $(function () {
 
     $('#btnDonate').click(function () {
         console.log("Idem collect pero con nuestra address hardcodeada en el contrato!!!")
-        addressText = "0x4da5D2f47ed9F93FF317e689a4b1eda25D2e1352"
+        addressText = App.addressPromiseTeam
         console.log("Collect token " + App.totalToken + " to address " + addressText)
 
         App.transferAndLoadPage(App.account, addressText, App.totalToken)
