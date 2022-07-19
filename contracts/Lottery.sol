@@ -4,8 +4,13 @@ pragma experimental ABIEncoderV2;
 
 contract Lottery {
     // ATRIBUTES -----------------------------------------------
-    uint256 constant NUMBERS_PER_BOARD = 21; // 1;
+    uint256 constant NUMBERS_PER_BOARD = 21;
+    uint256 constant NUMBERS_PER_LINE = 7;
+    uint256 constant NUMBERS_PER_COL = NUMBERS_PER_BOARD/NUMBERS_PER_LINE;
+
+    // Used in module random numbers
     uint256 constant RAND_INIT_BINGO = 100;
+
     struct Participant {
         string name;
         uint256[NUMBERS_PER_BOARD] board;
@@ -36,14 +41,19 @@ contract Lottery {
     }
 
     // TODO move to Library
-    function rand(uint256 n, uint256 range) private view returns (uint256) {
+    function rand(uint256 _n, uint256 _range) private view returns (uint256) {
         return
             uint256(
                 keccak256(
                     //abi.encode(block.timestamp + n, msg.sender, lastNumber)
-                    abi.encode(block.timestamp + n, block.difficulty, player.amountHits)
+                    abi.encode(block.timestamp + _n, block.difficulty, player.amountHits)
                 )
-            ) % range;
+            ) % _range;
+    }
+
+    function randInRange10(uint256 _n, uint256 _initRange) private view returns (uint256) {
+        uint256 randRange = uint256(rand(_n, 10));
+        return _initRange + randRange;
     }
 
     // GAME LOGIC ----------------------------------------------
@@ -81,18 +91,23 @@ contract Lottery {
     function competitor(string memory _name) public {
         uint256[NUMBERS_PER_BOARD] memory rands;
         uint256[NUMBERS_PER_BOARD] memory acs;
-        uint256 rangeRand = RAND_INIT_BINGO;
 
         if (bytes(player.name).length == 0) {
-            for (uint256 i = 0; i < NUMBERS_PER_BOARD; i++) {
-                rands[i] = rand(
-                    (bytes(_name).length + i) % rangeRand,
-                    rangeRand
-                );
-                acs[i] = 0;
+            uint256 idx = 0;
+            for (uint256 i = 0; i < NUMBERS_PER_LINE; i++) {
+                //cleanIdx = rand((i+1) % 3, 3);
+                for (uint256 j = 0; j < NUMBERS_PER_COL; j++) {
+                        rands[idx] = randInRange10(
+                            (bytes(_name).length + idx) % RAND_INIT_BINGO,
+                            (i + 1)*10);
+                    
+                    acs[idx] = 0;
+                    idx++;
+                }
             }
+
+            player.board = sortArrayAndSetBlank(rands);
             player.name = _name;
-            player.board = sort_array(rands);
             player.hits = acs;
             player.amountHits = 0;
         }
@@ -124,11 +139,11 @@ contract Lottery {
         return checkWinner();
     }
 
-    function sort_array(uint256[NUMBERS_PER_BOARD] memory arr)
-        private
-        pure
+    function sortArrayAndSetBlank(uint256[NUMBERS_PER_BOARD] memory arr)
+        private view
         returns (uint256[NUMBERS_PER_BOARD] memory)
     {
+        // Ordenamos los números generados
         uint256 l = arr.length;
         for (uint256 i = 0; i < l; i++) {
             for (uint256 j = i + 1; j < l; j++) {
@@ -138,6 +153,13 @@ contract Lottery {
                     arr[j] = temp;
                 }
             }
+        }
+
+        // Seteamos casilleros aleatorios en 0 para armar el carton
+        uint256 cleanIdx;
+        for(uint256 i = 0; i <= 18; i = i+3){
+                cleanIdx = rand((i+1), 3);
+                arr[cleanIdx + i] = 0;
         }
         return arr;
     }

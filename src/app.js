@@ -1,5 +1,8 @@
 App = {
   // Config params
+  numberPerBoard: 21,
+  numberPerLines: 7,
+  numberPerCol: 3,
   randRange: 100,
   matchTokenWin: 5,
   initToken: 10,

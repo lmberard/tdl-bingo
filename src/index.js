@@ -8,10 +8,22 @@ $(function () {
 
         // creo el tablero
         board = App.getBoard().then(board => {
-            console.log("Board created: "+board);
+            console.log("Board created: "+board)
+            var idxCol = 0
+            var idxRow = 0
+            var randomNumber = 0
+            var hashTable = {}
             $('td').each(function (index) {
-                var randomNumber = board[index];
-                $(this).addClass("cell" + randomNumber).text(randomNumber);
+                if((idxCol) >= App.numberPerBoard){
+                    idxCol = 0
+                    idxRow++
+                }
+                var randomNumber = board[idxRow+idxCol]
+                if(hashTable[randomNumber] == undefined && randomNumber != 0){
+                    hashTable[randomNumber] = randomNumber
+                    $(this).addClass("cell" + randomNumber).text(randomNumber)
+                }
+                idxCol += App.numberPerCol
             });
         });
 
